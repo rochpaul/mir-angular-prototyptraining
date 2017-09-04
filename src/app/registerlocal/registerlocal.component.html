@@ -1,0 +1,103 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div id="main_content">
+  <h3>
+    Schritt 1: Selbstregistrierung
+  </h3>
+  <p>
+    Bevor Sie eine Publikation einreichen können, benötigen Sie eine Nutzerkennung mit Autoren-Rechten. Sie können sich
+    über das unten stehende Formular selbst registrieren. Um die Registrierung abzuschließen, müssen Sie einmal den Link
+    aufrufen, der Ihnen per Mail zugesandt wird, nachdem Sie das Formular abgesandt haben. Vielen Dank!
+  </p>
+
+
+  <form [formGroup]="rForm" (ngSubmit)="addPost(rForm.value)" class="userEditor form-horizontal" role="form"
+        action="http://localhost:8291/mir/servlets/XEditor"
+        method="post">
+    <div xmlns:mcruser="http://www.mycore.de/components/mcruser" xmlns:xed="http://www.mycore.de/xeditor"
+         class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          Neuen Nutzer anlegen
+
+        </h3>
+      </div>
+      <div class="panel-body">
+        <div class="form-group   required ">
+          <label class="col-md-3 control-label" for="userName">
+            * Nutzerkennung:
+
+          </label>
+          <div class="col-md-9 ">
+            <!--<input name="/user/@name" value="" class="form-control input-md " id="userName" maxlength="16" type="text" formControlName="localuser_name">-->
+            <input type="text" formControlName="localuser_name">
+            <!--<div class="alert">ausprobieren</div>-->
+
+            <div class="alert"
+                 *ngIf="!rForm.controls['localuser_name'].valid && rForm.controls['localuser_name'].touched">{{
+              identificationAlert }}
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+    <!--<div class="form-group   required ">-->
+    <!--<label class="col-md-3 control-label" for="realName">-->
+    <!--* Name:-->
+
+    <!--</label>-->
+    <!--<div class="col-md-9 ">-->
+    <!--<input name="/user/realName" value="" class="form-control input-md " id="realName" maxlength="64"-->
+    <!--placeholder="Vorname Nachname" type="text">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group   required ">-->
+    <!--<label class="col-md-3 control-label" for="email">-->
+    <!--* E-Mail:-->
+
+    <!--</label>-->
+    <!--<div class="col-md-9 ">-->
+    <!--<input name="/user/eMail" value="" class="form-control input-md " id="email" maxlength="64"-->
+    <!--placeholder="your.mail@address.de" type="text">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group   required ">-->
+    <!--<label class="col-md-3 control-label" for="password">-->
+    <!--* Passwort:-->
+
+    <!--</label>-->
+    <!--<div class="col-md-9 ">-->
+    <!--<input name="/user/password" value="" class="form-control input-md " id="password" type="password">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="form-group   required ">-->
+    <!--<label class="col-md-3 control-label" for="password2">-->
+    <!--* Passwort-Wiederholung:-->
+
+    <!--</label>-->
+    <!--<div class="col-md-9 ">-->
+    <!--<input name="/user/password2" value="" class="form-control input-md " id="password2" type="password">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="panel-footer clearfix">-->
+    <!--<div class="pull-right">-->
+    <!--<button name="_xed_submit_servlet:MirSelfRegistrationServlet" class="btn btn-primary btn-md" type="submit">-->
+    <!--Speichern-->
+
+    <!--</button>-->
+    <!--<button name="_xed_submit_cancel" class="btn btn-default btn-md" type="submit">-->
+    <!--Abbrechen-->
+
+    <!--</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div style="visibility:hidden">-->
+    <!--<input value="/mir/" name="url" type="hidden"><input value="1-10" name="_xed_session" type="hidden">-->
+    <!--</div>-->
+  </form>
+</div>
