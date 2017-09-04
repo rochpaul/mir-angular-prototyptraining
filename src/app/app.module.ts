@@ -11,7 +11,17 @@ import {AppComponent} from './app.component';
 import {RegisterlocalComponent} from './registerlocal/registerlocal.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+
+  // Make the HTTP request:
+  http.get('http://localhost:8080/mir/api/v1/messages?format=json').subscribe(data => {
+    // Read the result field from the JSON response.
+    console.log('It works here')
+
+    console.log(data);
+
+  });
+
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({
