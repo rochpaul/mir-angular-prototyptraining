@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {TranslateService} from 'ng2-translate';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -11,20 +11,26 @@ export class AppComponent {
 
   constructor(private translate: TranslateService) {
 
-    /*
-     * prototype
-     */
-    translate.addLangs(["de", "en"]);
-    translate.setDefaultLang("de");
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('de');
 
-    /*
-     * get the current browser language
-     */
-    let browserlang = translate.getBrowserLang();
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('de');
 
-    //translate.use(browserlang.match("/de|en") ? browserLang : "de");
-
-    translate.use("de");
+    // /*
+    //  * prototype
+    //  */
+    // translate.addLangs(["de", "en"]);
+    // translate.setDefaultLang("de");
+    //
+    // /*
+    //  * get the current browser language
+    //  */
+    // let browserlang = translate.getBrowserLang();
+    //
+    // //translate.use(browserlang.match("/de|en") ? browserLang : "de");
+    //
+    // translate.use("de");
   }
 
   ngOnInit() {

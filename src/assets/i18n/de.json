@@ -1,4 +1,5 @@
 {
+  "messages": {
     "component.solr.searchresult.next": "Weiter",
     "editor.search.mir.institute.tooltip": "Von welcher Einrichtung soll die Veröffentlichung stammen?",
     "mir.help.thesisHabil.reviewer": "TODO",
@@ -1776,4 +1777,5 @@
     "buttons.details": "Details >>",
     "metadata.files.name": "Name",
     "mir.help.publisher": "Verlagsname oder verlegende Institution in ausgeschriebener Form"
+  }
 }
