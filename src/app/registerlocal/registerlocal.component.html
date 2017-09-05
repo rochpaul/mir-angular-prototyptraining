@@ -71,7 +71,7 @@
           </label>
 
           <div class="col-md-9 ">
-            <input type="text" formControlName="localuser_password" matches="[\S]*">
+            <input type="password" formControlName="localuser_password" matches="[\S]*">
             <div class="registrationAlert"
                  *ngIf="!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched">
               {{ 'messages.component.user2.admin.inputhints.password' | translate}}
@@ -86,7 +86,7 @@
 
           <div class="col-md-9 ">
 
-            <input type="text" formControlName="localuser_password_repeat" matches="[\S]*">
+            <input type="password" formControlName="localuser_password_repeat" matches="[\S]*">
             <div class="registrationAlert"
                  *ngIf="!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched">
               {{ 'messages.component.user2.admin.inputhints.password' | translate}}

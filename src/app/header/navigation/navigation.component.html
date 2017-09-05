@@ -1,0 +1,71 @@
+<div class="navbar navbar-default mir-main-nav">
+  <div class="container">
+    <div class="navbar-header">
+      <button data-target=".mir-main-nav-entries" data-toggle="collapse" type="button" class="navbar-toggle"><span class="sr-only"> Toggle navigation </span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
+    </div>
+    <div class="searchfield_box">
+      <form role="search" class="navbar-form navbar-left pull-right" action="">
+        <button class="btn btn-primary" type="submit" [routerLink]="['../search']"><i class="fa fa-search"></i></button>
+        <div class="form-group">
+          <input type="text" id="searchInput" class="form-control search-query" placeholder="Suche" name="condQuery">
+          <input
+            value="createdby:guest" type="hidden" name="owner">
+        </div>
+      </form>
+    </div>
+    <nav class="collapse navbar-collapse mir-main-nav-entries">
+      <ul class="nav navbar-nav pull-left">
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle" id="N8002D">Suche<span class="caret"></span></a>
+          <ul aria-labelledby="N8002D" role="menu" class="dropdown-menu">
+            <li>
+              <a href="#">einfach</a>
+            </li>
+            <li>
+              <a href="#">komplex</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle" id="N8004A">Blättern<span class="caret"></span></a>
+          <ul aria-labelledby="N8004A" role="menu" class="dropdown-menu">
+            <li>
+              <a href="#">Einrichtungen</a>
+            </li>
+            <li>
+              <a href="#">Dokumenttypen</a>
+            </li>
+            <li>
+              <a href="#">Sachgruppen</a>
+            </li>
+            <li>
+              <a href="h#">Personen</a>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" data-toggle="dropdown" class="dropdown-toggle" id="N80077">Dokumente einreichen<span class="caret"></span></a>
+          <ul aria-labelledby="N80077" role="menu" class="dropdown-menu">
+            <li>
+              <a href="#">Publizieren</a>
+            </li>
+            <li>
+              <a href="#">Publizieren (PPN Import)</a>
+            </li>
+            <li>
+              <a href="#">Leitlinien</a>
+            </li>
+          </ul>
+        </li>
+        <li id="basket-list-item" class="dropdown">
+          <a title="Auf ihrer Merkliste befinden sich keine Dokumente." href="#" data-toggle="dropdown" class="dropdown-toggle"><i class="fa fa-bookmark"></i><sup>0</sup></a>
+          <ul role="menu" class="dropdown-menu">
+            <li>
+              <a href="#">Merkliste öffnen</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

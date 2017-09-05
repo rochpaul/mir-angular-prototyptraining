@@ -10,11 +10,19 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {AppComponent} from './app.component';
 import {RegisterlocalComponent} from './registerlocal/registerlocal.component';
 import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
+import {FooterComponent} from "./footer/footer.component";
+import {HeaderComponent} from "./header/header.component";
+import {NavigationComponent} from "./header/navigation/navigation.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterlocalComponent
+    RegisterlocalComponent,
+
+    HeaderComponent,
+    FooterComponent,
+    NavigationComponent
+
   ],
   imports: [
     BrowserModule,
@@ -32,7 +40,8 @@ import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
 
     TranslateModule.forRoot({
       loader: {
-        provide: TranslateLoader, useClass: MCRMessagesLoader}
+        provide: TranslateLoader, useClass: MCRMessagesLoader
+      }
     })
 
   ],
