@@ -9,20 +9,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {AppComponent} from './app.component';
 import {RegisterlocalComponent} from './registerlocal/registerlocal.component';
-
-export function HttpLoaderFactory(http: HttpClient) {
-
-  // Make the HTTP request:
-  http.get('http://localhost:8080/mir/api/v1/messages?format=json').subscribe(data => {
-    // Read the result field from the JSON response.
-    console.log('It works here')
-
-    console.log(data);
-
-  });
-
-  return new TranslateHttpLoader(http);
-}
+import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
 
 @NgModule({
   declarations: [
@@ -45,10 +32,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
     TranslateModule.forRoot({
       loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
+        provide: TranslateLoader, useClass: MCRMessagesLoader}
     })
 
   ],
