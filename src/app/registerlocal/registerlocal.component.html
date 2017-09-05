@@ -8,7 +8,8 @@
   </p>
 
 
-  <form [formGroup]="rForm" (ngSubmit)="addPost(rForm.value)" class="userEditor form-horizontal" role="form"
+  <form [formGroup]="registrationForm" (ngSubmit)="addPost(registrationForm.value)" class="userEditor form-horizontal"
+        role="form"
         action="http://localhost:8291/mir/servlets/XEditor"
         method="post">
     <div xmlns:mcruser="http://www.mycore.de/components/mcruser" xmlns:xed="http://www.mycore.de/xeditor"
@@ -21,81 +22,93 @@
       </div>
       <div class="panel-body">
         <div class="form-group   required ">
-          <label class="col-md-3 control-label" for="userName">
+          <label class="col-md-3 control-label">
             * {{ 'messages.component.user2.admin.userAccount' | translate}}
 
           </label>
           <div class="col-md-9 ">
-            <!--<input name="/user/@name" value="" class="form-control input-md " id="userName" maxlength="16" type="text" formControlName="localuser_name">-->
-            <input type="text" formControlName="localuser_name">
-            <!--<div class="alert">ausprobieren</div>-->
-
-            <div class="alert"
-                 *ngIf="!rForm.controls['localuser_name'].valid && rForm.controls['localuser_name'].touched">{{
-              identificationAlert }}
+            <input type="text" formControlName="localuser_identification" maxlength="16" pattern="[a-z0-9\._-]*">
+            <div class="registrationAlert"
+                 *ngIf="!registrationForm.controls['localuser_identification'].valid && registrationForm.controls['localuser_identification'].touched">
+              {{ 'messages.component.user2.admin.inputhints.username' | translate }}
             </div>
-
           </div>
         </div>
 
+        <div class="form-group   required ">
+          <label class="col-md-3 control-label">
+            * {{ 'messages.component.user2.admin.realName' | translate}}
+          </label>
+
+          <div class="col-md-9 ">
+            <input type="text" formControlName="localuser_name" maxlength="64"
+                   placeholder="{{ 'messages.mir.register.realName' | translate}}">
+            <div class="registrationAlert"
+                 *ngIf="!registrationForm.controls['localuser_name'].valid && registrationForm.controls['localuser_name'].touched">
+              {{ 'messages.selfRegistration.realName.required' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group   required ">
+          <label class="col-md-3 control-label">
+            * {{ 'messages.component.user2.admin.email' | translate}}
+          </label>
+
+          <div class="col-md-9 ">
+            <input type="text" formControlName="localuser_mail" maxlength="64" pattern="\S+@\S+\.\S+"
+                   placeholder="your.mail@address.de">
+            <div class="registrationAlert"
+                 *ngIf="!registrationForm.controls['localuser_mail'].valid && registrationForm.controls['localuser_mail'].touched">
+              {{ 'messages.component.user2.admin.email.syntax' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group   required ">
+          <label class="col-md-3 control-label">
+            * {{ 'messages.component.user2.admin.password' | translate}}
+          </label>
+
+          <div class="col-md-9 ">
+            <input type="text" formControlName="localuser_password" matches="[\S]*">
+            <div class="registrationAlert"
+                 *ngIf="!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched">
+              {{ 'messages.component.user2.admin.inputhints.password' | translate}}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group   required ">
+          <label class="col-md-3 control-label">
+            * {{ 'messages.component.user2.admin.passwordRepeat' | translate}}
+          </label>
+
+          <div class="col-md-9 ">
+
+            <input type="text" formControlName="localuser_password_repeat" matches="[\S]*">
+            <div class="registrationAlert"
+                 *ngIf="!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched">
+              {{ 'messages.component.user2.admin.inputhints.password' | translate}}
+            </div>
+          </div>
+        </div>
 
       </div>
+      <div class="panel-footer clearfix">
+        <div class="pull-right">
+          <!--<input type="submit" class="button expanded" value="Submit Form" [disabled]="!rForm.valid">-->
+          <button name="_xed_submit_servlet:MirSelfRegistrationServlet" class="btn btn-primary btn-md" type="submit"
+                  [disabled]="!registrationForm.valid">
+            {{ 'messages.component.user2.button.save' | translate }}
+
+          </button>
+          <button name="_xed_submit_cancel" class="btn btn-default btn-md" type="submit">
+            {{ 'messages.component.user2.button.cancel' | translate }}
+
+          </button>
+        </div>
+      </div>
     </div>
-
-    <!--<div class="form-group   required ">-->
-    <!--<label class="col-md-3 control-label" for="realName">-->
-    <!--* Name:-->
-
-    <!--</label>-->
-    <!--<div class="col-md-9 ">-->
-    <!--<input name="/user/realName" value="" class="form-control input-md " id="realName" maxlength="64"-->
-    <!--placeholder="Vorname Nachname" type="text">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group   required ">-->
-    <!--<label class="col-md-3 control-label" for="email">-->
-    <!--* E-Mail:-->
-
-    <!--</label>-->
-    <!--<div class="col-md-9 ">-->
-    <!--<input name="/user/eMail" value="" class="form-control input-md " id="email" maxlength="64"-->
-    <!--placeholder="your.mail@address.de" type="text">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group   required ">-->
-    <!--<label class="col-md-3 control-label" for="password">-->
-    <!--* Passwort:-->
-
-    <!--</label>-->
-    <!--<div class="col-md-9 ">-->
-    <!--<input name="/user/password" value="" class="form-control input-md " id="password" type="password">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="form-group   required ">-->
-    <!--<label class="col-md-3 control-label" for="password2">-->
-    <!--* Passwort-Wiederholung:-->
-
-    <!--</label>-->
-    <!--<div class="col-md-9 ">-->
-    <!--<input name="/user/password2" value="" class="form-control input-md " id="password2" type="password">-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="panel-footer clearfix">-->
-    <!--<div class="pull-right">-->
-    <!--<button name="_xed_submit_servlet:MirSelfRegistrationServlet" class="btn btn-primary btn-md" type="submit">-->
-    <!--Speichern-->
-
-    <!--</button>-->
-    <!--<button name="_xed_submit_cancel" class="btn btn-default btn-md" type="submit">-->
-    <!--Abbrechen-->
-
-    <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div style="visibility:hidden">-->
-    <!--<input value="/mir/" name="url" type="hidden"><input value="1-10" name="_xed_session" type="hidden">-->
-    <!--</div>-->
   </form>
 </div>

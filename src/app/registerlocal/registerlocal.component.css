@@ -1,13 +1,13 @@
-.alert {
+.registrationAlert {
   background: #f2edda;
   padding: 7px;
   font-size: .9em;
   margin-bottom: 20px;
   display: inline-block;
-  animation: 2s alertAnim forwards;
+  animation: 2s registrationAlertAnim forwards;
 }
 
-@keyframes alertAnim {
+@keyframes registrationAlertAnim {
   from {
     opacity: 0;
     transform: translateY(-20px);

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -8,24 +8,17 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class RegisterlocalComponent {
 
-  rForm: FormGroup;
+  registrationForm: FormGroup;
   post: any;                     // A property for our submitted form
-  localuser_identification: string = '';
-  localuser_name: string = '';
-  localuser_mail: string = '';
-  localuser_password: string = '';
-  localuser_password_repeat: string = '';
-
-  identificationAlert: string = 'This field is required';
 
   constructor(private fb: FormBuilder) {
 
-    this.rForm = fb.group({
-      'localuser_identification': [null, Validators.required],
-      'localuser_name': [null, Validators.compose([Validators.required, Validators.minLength(30), Validators.maxLength(500)])],
-      'localuser_mail': '',
-      'localuser_password': '',
-      'localuser_password_repeat': ''
+    this.registrationForm = fb.group({
+      'localuser_identification': [null, Validators.compose([Validators.required, Validators.maxLength(16)])],
+      'localuser_name': [null, Validators.compose([Validators.required, Validators.maxLength(64)])],
+      'localuser_mail': [null, Validators.compose([Validators.required, Validators.maxLength(64)])],
+      'localuser_password': [null, Validators.required],
+      'localuser_password_repeat': [null, Validators.required]
     });
   }
 
