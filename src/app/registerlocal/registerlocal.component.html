@@ -24,10 +24,9 @@
         <div class="panel-body">
 
 
-          <div xmlns:mir="http://www.mycore.de/mir" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-               class="alert alert-danger">
+          <div class="alert alert-danger">
             <h3>
-              Please fix the following validation errors in the marked fields:
+              {{ 'messages.mir.validation.failed' | translate }}
 
             </h3>
             <ul class="mir-validation-messages">
@@ -60,8 +59,8 @@
 
 
           <div class="form-group   required " [ngClass]="{
-          'has-error has-feedback required':!registrationForm.controls['localuser_identification'].valid && registrationForm.controls['localuser_identification'].touched,
-          'has-success required' : registrationForm.controls['localuser_identification'].valid}">
+          'has-error has-feedback':!registrationForm.controls['localuser_identification'].valid && registrationForm.controls['localuser_identification'].touched,
+          'has-success' : registrationForm.controls['localuser_identification'].valid}">
 
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.userAccount' | translate}}
@@ -77,8 +76,8 @@
           </div>
 
           <div class="form-group   required " [ngClass]="{
-          'has-error has-feedback required':!registrationForm.controls['localuser_name'].valid && registrationForm.controls['localuser_name'].touched,
-          'has-success required' : registrationForm.controls['localuser_name'].valid}">
+          'has-error has-feedback':!registrationForm.controls['localuser_name'].valid && registrationForm.controls['localuser_name'].touched,
+          'has-success' : registrationForm.controls['localuser_name'].valid}">
 
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.realName' | translate}}
@@ -94,8 +93,8 @@
           </div>
 
           <div class="form-group   required " [ngClass]="{
-          'has-error has-feedback required':!registrationForm.controls['localuser_mail'].valid && registrationForm.controls['localuser_mail'].touched,
-          'has-success required' : registrationForm.controls['localuser_mail'].valid}">
+          'has-error has-feedback':!registrationForm.controls['localuser_mail'].valid && registrationForm.controls['localuser_mail'].touched,
+          'has-success' : registrationForm.controls['localuser_mail'].valid}">
 
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.email' | translate}}
@@ -112,8 +111,8 @@
           </div>
 
           <div class="form-group   required " [ngClass]="{
-          'has-error has-feedback required':!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched,
-          'has-success required' : registrationForm.controls['localuser_password'].valid}">
+          'has-error has-feedback':!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched,
+          'has-success' : registrationForm.controls['localuser_password'].valid}">
 
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.password' | translate}}
@@ -128,8 +127,8 @@
           </div>
 
           <div class="form-group   required " [ngClass]="{
-          'has-error has-feedback required':!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched,
-          'has-success required' : registrationForm.controls['localuser_password_repeat'].valid}">
+          'has-error has-feedback':!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched,
+          'has-success' : registrationForm.controls['localuser_password_repeat'].valid}">
 
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.passwordRepeat' | translate}}
