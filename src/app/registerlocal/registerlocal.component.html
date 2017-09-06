@@ -59,57 +59,85 @@
           </div>
 
 
-          <div class="form-group   required ">
+          <div class="form-group   required " [ngClass]="{
+          'has-error has-feedback required':!registrationForm.controls['localuser_identification'].valid && registrationForm.controls['localuser_identification'].touched,
+          'has-success required' : registrationForm.controls['localuser_identification'].valid}">
+
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.userAccount' | translate}}
 
             </label>
-            <div class="col-md-9 ">
+            <div class="col-md-9 " [ngClass]="{
+          'has-error has-feedback':!registrationForm.controls['localuser_identification'].valid && registrationForm.controls['localuser_identification'].touched,
+          'has-success' : registrationForm.controls['localuser_identification'].valid}">
 
               <input class="form-control input-md " type="text" formControlName="localuser_identification"
                      maxlength="16" pattern="[a-z0-9\._-]*">
             </div>
           </div>
 
-          <div class="form-group   required ">
+          <div class="form-group   required " [ngClass]="{
+          'has-error has-feedback required':!registrationForm.controls['localuser_name'].valid && registrationForm.controls['localuser_name'].touched,
+          'has-success required' : registrationForm.controls['localuser_name'].valid}">
+
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.realName' | translate}}
             </label>
 
-            <div class="col-md-9 ">
+            <div class="col-md-9 " [ngClass]="{
+          'has-error has-feedback':!registrationForm.controls['localuser_name'].valid && registrationForm.controls['localuser_name'].touched,
+          'has-success' : registrationForm.controls['localuser_name'].valid}">
+
               <input class="form-control input-md" type="text" formControlName="localuser_name" maxlength="64"
                      placeholder="{{ 'messages.mir.register.realName' | translate}}">
             </div>
           </div>
 
-          <div class="form-group   required ">
+          <div class="form-group   required " [ngClass]="{
+          'has-error has-feedback required':!registrationForm.controls['localuser_mail'].valid && registrationForm.controls['localuser_mail'].touched,
+          'has-success required' : registrationForm.controls['localuser_mail'].valid}">
+
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.email' | translate}}
             </label>
 
-            <div class="col-md-9 ">
+            <div class="col-md-9 " [ngClass]="{
+          'has-error has-feedback':!registrationForm.controls['localuser_mail'].valid && registrationForm.controls['localuser_mail'].touched,
+          'has-success' : registrationForm.controls['localuser_mail'].valid}">
+
               <input class="form-control input-md" type="text" formControlName="localuser_mail" maxlength="64"
                      pattern="\S+@\S+\.\S+"
                      placeholder="your.mail@address.de">
             </div>
           </div>
 
-          <div class="form-group   required ">
+          <div class="form-group   required " [ngClass]="{
+          'has-error has-feedback required':!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched,
+          'has-success required' : registrationForm.controls['localuser_password'].valid}">
+
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.password' | translate}}
             </label>
 
-            <div class="col-md-9 ">
+            <div class="col-md-9 " [ngClass]="{
+          'has-error has-feedback':!registrationForm.controls['localuser_password'].valid && registrationForm.controls['localuser_password'].touched,
+          'has-success' : registrationForm.controls['localuser_password'].valid}">
+
               <input class="form-control input-md" type="password" formControlName="localuser_password" matches="[\S]*">
             </div>
           </div>
 
-          <div class="form-group   required ">
+          <div class="form-group   required " [ngClass]="{
+          'has-error has-feedback required':!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched,
+          'has-success required' : registrationForm.controls['localuser_password_repeat'].valid}">
+
             <label class="col-md-3 control-label">
               {{ 'messages.component.user2.admin.passwordRepeat' | translate}}
             </label>
 
-            <div class="col-md-9 ">
+            <div class="col-md-9 " [ngClass]="{
+          'has-error has-feedback':!registrationForm.controls['localuser_password_repeat'].valid && registrationForm.controls['localuser_password_repeat'].touched,
+          'has-success' : registrationForm.controls['localuser_password_repeat'].valid}">
 
               <input class="form-control input-md" type="password" formControlName="localuser_password_repeat"
                      matches="[\S]*">
