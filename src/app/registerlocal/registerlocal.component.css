@@ -1,16 +1,11 @@
 .registrationAlert {
-  background: #f2edda;
-  padding: 7px;
-  font-size: .9em;
-  margin-bottom: 20px;
-  display: inline-block;
-  animation: 2s registrationAlertAnim forwards;
+  animation: 1s registrationAlertAnim forwards;
 }
 
 @keyframes registrationAlertAnim {
   from {
     opacity: 0;
-    transform: translateY(-20px);
+    transform: translateY(-10px);
   }
   to {
     opacity: 1;
