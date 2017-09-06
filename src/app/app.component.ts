@@ -15,8 +15,6 @@ export class AppComponent {
     translate.setDefaultLang('de');
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('de');
-
     // /*
     //  * prototype
     //  */
@@ -31,6 +29,10 @@ export class AppComponent {
     // //translate.use(browserlang.match("/de|en") ? browserLang : "de");
     //
     // translate.use("de");
+  }
+
+  switchLanguage(language: string) {
+    this.translate.use(language);
   }
 
   ngOnInit() {
