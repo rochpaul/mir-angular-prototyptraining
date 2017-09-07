@@ -1,8 +1,9 @@
 import {TranslateLoader} from '@ngx-translate/core';
 import {Observable} from "rxjs/Observable";
+import {appConfig} from '../app.config';
 
 
-import {HttpClientModule, HttpClient} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from "@angular/core";
 
 @Injectable()
@@ -13,7 +14,7 @@ export class MCRMessagesLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<any> {
 
-    var messagesURL = "http://localhost:8080/mir/api/v1/messages?format=json&lang=" + lang;
+    var messagesURL = appConfig.serverUrl + "/mir/api/v1/messages?format=json&lang=" + lang;
 
     return Observable.create(observer => {
 
