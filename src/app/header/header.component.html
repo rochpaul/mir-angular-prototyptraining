@@ -1,4 +1,37 @@
 <div id="header_box" class="container">
+
+  <!--<div class="mir-prop-nav" id="options_nav_box">-->
+    <!--<nav>-->
+      <!--<ul class="nav navbar-nav pull-right">-->
+        <!--<li class="dropdown mir-lang">-->
+          <!--<a title="Sprache wechseln" data-toggle="dropdown" aria-expanded="false">de<span class="caret"></span></a>-->
+          <!--<ul role="menu" class="dropdown-menu language-menu">-->
+            <!--<li>-->
+              <!--<a title="English" href="http://localhost:8080/mir/content/index.xml;jsessionid=73E80E38EA064055D98FD86FFB671344?lang=en">en</a>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<a title="italiano" href="http://localhost:8080/mir/content/index.xml;jsessionid=73E80E38EA064055D98FD86FFB671344?lang=it">it</a>-->
+            <!--</li>-->
+          <!--</ul>-->
+        <!--</li>-->
+      <!--</ul>-->
+    <!--</nav>-->
+  <!--</div>-->
+
+  <div class="btn-group" dropdown>
+    <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+      Button dropdown <span class="caret"></span>
+    </button>
+    <ul *dropdownMenu class="dropdown-menu" role="menu">
+      <li role="menuitem"><a class="dropdown-item" href="#">Action</a></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Another action</a></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Something else here</a></li>
+      <li class="divider dropdown-divider"></li>
+      <li role="menuitem"><a class="dropdown-item" href="#">Separated link</a>
+      </li>
+    </ul>
+  </div>
+
   <div id="project_logo_box">
     <a class="logo_link" href="#" [routerLink]="['../mir']">
       <span id="logo_mir">mir</span>

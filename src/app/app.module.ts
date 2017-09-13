@@ -8,20 +8,24 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 import {AppComponent} from './app.component';
+import { StartComponent } from './start/start.component';
 import {RegisterlocalComponent} from './registerlocal/registerlocal.component';
 import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
 import {FooterComponent} from "./footer/footer.component";
 import {HeaderComponent} from "./header/header.component";
 import {NavigationComponent} from "./header/navigation/navigation.component";
 
+import { BsDropdownModule } from 'ngx-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterlocalComponent,
-
     HeaderComponent,
+    NavigationComponent,
+    StartComponent,
     FooterComponent,
-    NavigationComponent
+
+    RegisterlocalComponent,
 
   ],
   imports: [
@@ -33,12 +37,15 @@ import {NavigationComponent} from "./header/navigation/navigation.component";
 
     RouterModule.forRoot([
 
+      { path: '', component: StartComponent },
+      { path: 'mir', component: StartComponent },
+
+
       {path: 'new-author', component: RegisterlocalComponent},
-      {path: 'error', component: RegisterlocalComponent},
-      {path: '', redirectTo: 'new-author', pathMatch: 'full'},
-      {path: '**', redirectTo: 'new-author', pathMatch: 'full'}
+
     ]),
 
+    BsDropdownModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader, useClass: MCRMessagesLoader
