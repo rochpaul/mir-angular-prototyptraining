@@ -2,7 +2,6 @@ import {TranslateLoader} from '@ngx-translate/core';
 import {Observable} from "rxjs/Observable";
 import {appConfig} from '../app.config';
 
-
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
