@@ -1,3 +1,21 @@
+.mir-prop-nav .navbar-nav > li > a {
+  color: #95a5a6;
+  font-size: 85%;
+  padding: 0px;
+  margin-top: 1px;
+}
+
+.mir-prop-nav .navbar-nav > li > div > a {
+
+  margin-left: 15px;
+  color: #95a5a6;
+  font-size: 85%;
+  padding: 0px;
+}
+.mir-prop-nav .navbar-nav > li > div > a .caret {
+  border-top-color: #95a5a6;
+}
+
 /* .logo_link {
 font-size: 18px;
 }
