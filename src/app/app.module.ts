@@ -34,6 +34,7 @@ import {NavigationComponent} from "./header/navigation/navigation.component";
     RouterModule.forRoot([
 
       {path: 'new-author', component: RegisterlocalComponent},
+      {path: 'error', component: RegisterlocalComponent},
       {path: '', redirectTo: 'new-author', pathMatch: 'full'},
       {path: '**', redirectTo: 'new-author', pathMatch: 'full'}
     ]),

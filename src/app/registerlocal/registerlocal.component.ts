@@ -28,5 +28,6 @@ export class RegisterlocalComponent {
 
   addPost(post) {
 
+    console.log(post);
   }
 }

@@ -5,11 +5,12 @@ import {appConfig} from '../app.config';
 
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from "@angular/core";
+import {Router} from "@angular/router";
 
 @Injectable()
 export class MCRMessagesLoader implements TranslateLoader {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   getTranslation(lang: string): Observable<any> {
@@ -28,7 +29,15 @@ export class MCRMessagesLoader implements TranslateLoader {
         observer.next(<any>response);
         observer.complete();
 
-      });
+      },
+      err => {
+        console.log('Something went wrong!');
+
+        this.router.navigate(["/error"]);
+        return Observable.of(null);
+      }
+
+      );
     });
   }
 }

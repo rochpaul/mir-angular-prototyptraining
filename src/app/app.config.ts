@@ -1,3 +1,3 @@
 ﻿export const appConfig = {
-    serverUrl: 'http://localhost:8291/',
+    serverUrl: 'http://localhost:8080',
 };
