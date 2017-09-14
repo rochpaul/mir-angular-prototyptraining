@@ -21,6 +21,7 @@ import {ElementremovePipe} from './pipes/elementremove.pipe';
 import {LoginareaComponent} from './mir/loginarea/loginarea.component';
 import {ServererrorComponent} from './error/servererror/servererror.component';
 import {MirComponent} from './mir/mir.component';
+import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
 
 @NgModule({
   declarations: [
@@ -69,7 +70,7 @@ import {MirComponent} from './mir/mir.component';
     })
 
   ],
-  providers: [MCRLanguageService],
+  providers: [MCRLanguageService, MCRServerStatusService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

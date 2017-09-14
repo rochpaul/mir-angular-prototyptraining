@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {Router} from "@angular/router";
+import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
 
 @Component({
   selector: 'mir-app-starter',
@@ -7,9 +9,10 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() {
+  constructor(private serverStatusService: MCRServerStatusService) {
   }
 
   ngOnInit() {
+
   }
 }
