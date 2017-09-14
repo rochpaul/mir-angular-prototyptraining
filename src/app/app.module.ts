@@ -17,17 +17,17 @@ import {HeaderComponent} from "./header/header.component";
 import {NavigationComponent} from "./header/navigation/navigation.component";
 
 import {BsDropdownModule} from 'ngx-bootstrap';
+import { ElementremovePipe } from './pipes/elementremove.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ElementremovePipe,
     HeaderComponent,
     NavigationComponent,
     StartComponent,
     FooterComponent,
-
     RegisterlocalComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -36,7 +36,7 @@ import {BsDropdownModule} from 'ngx-bootstrap';
     ReactiveFormsModule,
 
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
-    LoggerModule.forRoot({level: 'DEBUG'}),
+    LoggerModule.forRoot({level: 'INFO'}),
 
     RouterModule.forRoot([
 

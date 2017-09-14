@@ -5,11 +5,12 @@ import {appConfig} from '../app.config';
 import {HttpClient} from '@angular/common/http';
 import {Injectable} from "@angular/core";
 import {Router} from "@angular/router";
+import {NGXLogger} from "ngx-logger";
 
 @Injectable()
 export class MCRMessagesLoader implements TranslateLoader {
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(private http: HttpClient, private router: Router, private logger: NGXLogger) {
   }
 
   getTranslation(lang: string): Observable<any> {
@@ -20,22 +21,25 @@ export class MCRMessagesLoader implements TranslateLoader {
 
       // Make the HTTP request:
       this.http.get(messagesURL).subscribe(response => {
-        // Read the result field from the JSON response.
+          // Read the result field from the JSON response.
 
-        console.log('It works here')
-        console.log(response);
+          this.logger.info('MCRMessagesLoader: Cache messages from Server in Language "' + lang + '".');
 
-        observer.next(<any>response);
-        observer.complete();
+          console.log(response);
 
-      },
-      err => {
+          observer.next(<any>response);
+          observer.complete();
+
+        },
+        err => {
+
+          this.logger.error('MCRMessagesLoader: Server Side error occured.')
+
         console.log('Something went wrong!');
 
-        this.router.navigate(["/error"]);
-        return Observable.of(null);
-      }
-
+          this.router.navigate(["/error"]);
+          return Observable.of(null);
+        }
       );
     });
   }
