@@ -9,29 +9,31 @@ import {LoggerModule} from 'ngx-logger';
 import {MCRLanguageService} from './i18n/mcrlanguage.service'
 
 import {AppComponent} from './app.component';
-import {StartComponent} from './start/start.component';
-import {RegisterlocalComponent} from './loginarea/registerlocal/registerlocal.component';
+import {StartComponent} from './mir/start/start.component';
+import {RegisterlocalComponent} from './mir/loginarea/registerlocal/registerlocal.component';
 import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
-import {FooterComponent} from "./footer/footer.component";
-import {HeaderComponent} from "./header/header.component";
-import {NavigationComponent} from "./header/navigation/navigation.component";
+import {FooterComponent} from "./mir/footer/footer.component";
+import {HeaderComponent} from "./mir/header/header.component";
+import {NavigationComponent} from "./mir/header/navigation/navigation.component";
 
 import {BsDropdownModule} from 'ngx-bootstrap';
 import {ElementremovePipe} from './pipes/elementremove.pipe';
-import {LoginareaComponent} from './loginarea/loginarea.component';
+import {LoginareaComponent} from './mir/loginarea/loginarea.component';
 import { ServererrorComponent } from './error/servererror/servererror.component';
+import { MirComponent } from './mir/mir.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     ElementremovePipe,
+    AppComponent,
+    MirComponent,
+    ServererrorComponent,
     HeaderComponent,
     NavigationComponent,
     StartComponent,
     FooterComponent,
     RegisterlocalComponent,
     LoginareaComponent,
-    ServererrorComponent,
   ],
   imports: [
     BrowserModule,

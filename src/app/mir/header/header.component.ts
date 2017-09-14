@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MCRLanguageService} from "../i18n/mcrlanguage.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NGXLogger} from 'ngx-logger';
+import {MCRLanguageService} from "../../i18n/mcrlanguage.service";
 
 @Component({
   selector: '[mir-header]',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  templateUrl: 'header.component.html',
+  styleUrls: ['header.component.css']
 })
 export class HeaderComponent implements OnInit {
 
