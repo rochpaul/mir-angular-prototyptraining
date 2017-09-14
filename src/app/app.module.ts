@@ -10,14 +10,15 @@ import {MCRLanguageService} from './i18n/mcrlanguage.service'
 
 import {AppComponent} from './app.component';
 import {StartComponent} from './start/start.component';
-import {RegisterlocalComponent} from './registerlocal/registerlocal.component';
+import {RegisterlocalComponent} from './loginarea/registerlocal/registerlocal.component';
 import {MCRMessagesLoader} from "./i18n/mcrmessages-loader";
 import {FooterComponent} from "./footer/footer.component";
 import {HeaderComponent} from "./header/header.component";
 import {NavigationComponent} from "./header/navigation/navigation.component";
 
 import {BsDropdownModule} from 'ngx-bootstrap';
-import { ElementremovePipe } from './pipes/elementremove.pipe';
+import {ElementremovePipe} from './pipes/elementremove.pipe';
+import {LoginareaComponent} from './loginarea/loginarea.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ElementremovePipe } from './pipes/elementremove.pipe';
     StartComponent,
     FooterComponent,
     RegisterlocalComponent,
+    LoginareaComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { ElementremovePipe } from './pipes/elementremove.pipe';
       {path: '', component: StartComponent},
       {path: 'mir', component: StartComponent},
 
-      {path: 'new-author', component: RegisterlocalComponent},
+      {path: 'loginarea', component: LoginareaComponent},
+      {path: 'loginarea/new-author', component: RegisterlocalComponent}
 
     ]),
 

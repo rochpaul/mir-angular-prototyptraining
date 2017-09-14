@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-registerlocal',
-  templateUrl: './registerlocal.component.html',
-  styleUrls: ['./registerlocal.component.css']
+  templateUrl: 'registerlocal.component.html',
+  styleUrls: ['registerlocal.component.css']
 })
 export class RegisterlocalComponent {
 
