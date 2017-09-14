@@ -31,15 +31,16 @@
         <div dropdown>
 
 
-          <a dropdownToggle title="Sprache wechseln" aria-expanded="true">Sprache<span class="caret"></span></a>
+          <a dropdownToggle title="Sprache wechseln" aria-expanded="true">{{defaultLanguage}}<span class="caret"></span></a>
 
 
           <!--<button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">-->
           <!--Spracheinstellungen <span class="caret"></span>-->
           <!--</button>-->
           <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li role="menuitem"><a class="dropdown-item" (click)="switchLanguage('en')">en</a></li>
-            <li role="menuitem"><a class="dropdown-item" (click)="switchLanguage('de')">de</a></li>
+            <li *ngFor="let mcrlanguage of mcrlanguages" role="menuitem">
+              <a class="dropdown-item" (click)="switchLanguage(mcrlanguage)">{{ mcrlanguage }}</a>
+            </li>
           </ul>
         </div>
       </li>

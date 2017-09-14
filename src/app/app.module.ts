@@ -4,6 +4,9 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
+import {LoggerModule} from 'ngx-logger';
+
+import {MCRLanguageService} from './i18n/mcrlanguage.service'
 
 import {AppComponent} from './app.component';
 import {StartComponent} from './start/start.component';
@@ -32,6 +35,9 @@ import {BsDropdownModule} from 'ngx-bootstrap';
     HttpClientModule,
     ReactiveFormsModule,
 
+    //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
+    LoggerModule.forRoot({level: 'DEBUG'}),
+
     RouterModule.forRoot([
 
       {path: '', component: StartComponent},
@@ -49,7 +55,7 @@ import {BsDropdownModule} from 'ngx-bootstrap';
     })
 
   ],
-  providers: [],
+  providers: [MCRLanguageService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
