@@ -35,9 +35,8 @@ export class MCRMessagesLoader implements TranslateLoader {
 
           this.logger.error('MCRMessagesLoader: Server Side error occured.')
 
-        console.log('Something went wrong!');
+          console.log('Something went wrong!');
 
-          this.router.navigate(["/error"]);
           return Observable.of(null);
         }
       );

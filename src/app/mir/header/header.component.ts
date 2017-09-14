@@ -3,6 +3,7 @@ import {TranslateService} from '@ngx-translate/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {NGXLogger} from 'ngx-logger';
 import {MCRLanguageService} from "../../i18n/mcrlanguage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: '[mir-header]',
@@ -16,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private translate: TranslateService,
               private mcrLanguageService: MCRLanguageService,
+              private router: Router,
               private logger: NGXLogger) {
 
   }
