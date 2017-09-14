@@ -19,6 +19,7 @@ import {NavigationComponent} from "./header/navigation/navigation.component";
 import {BsDropdownModule} from 'ngx-bootstrap';
 import {ElementremovePipe} from './pipes/elementremove.pipe';
 import {LoginareaComponent} from './loginarea/loginarea.component';
+import { ServererrorComponent } from './error/servererror/servererror.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import {LoginareaComponent} from './loginarea/loginarea.component';
     FooterComponent,
     RegisterlocalComponent,
     LoginareaComponent,
+    ServererrorComponent,
   ],
   imports: [
     BrowserModule,
