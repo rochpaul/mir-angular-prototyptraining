@@ -9,12 +9,8 @@
     </p>
 
 
-    <form [formGroup]="registrationForm" (ngSubmit)="addPost(registrationForm.value)" class="userEditor form-horizontal"
-          role="form"
-          action="http://localhost:8291/mir/servlets/XEditor"
-          method="post">
-      <div xmlns:mcruser="http://www.mycore.de/components/mcruser" xmlns:xed="http://www.mycore.de/xeditor"
-           class="panel panel-default">
+    <form [formGroup]="registrationForm" (ngSubmit)="addPost(registrationForm.value)" class="userEditor form-horizontal">
+      <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">
             {{ 'messages.component.user2.admin.create.title' | translate}}

@@ -7,6 +7,7 @@ import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {LoggerModule} from 'ngx-logger';
 
 import {MCRLanguageService} from './i18n/mcrlanguage.service'
+import {AuthenticationService} from "./services/authentication/authentication.service";
 
 import {AppComponent} from './app.component';
 import {StartComponent} from './mir/start/start.component';
@@ -22,6 +23,7 @@ import {LoginareaComponent} from './mir/loginarea/loginarea.component';
 import {ServererrorComponent} from './error/servererror/servererror.component';
 import {MirComponent} from './mir/mir.component';
 import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
+
 
 @NgModule({
   declarations: [
@@ -70,7 +72,7 @@ import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.s
     })
 
   ],
-  providers: [MCRLanguageService, MCRServerStatusService],
+  providers: [MCRLanguageService, MCRServerStatusService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
