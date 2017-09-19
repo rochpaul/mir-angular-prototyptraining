@@ -5,6 +5,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {LoggerModule} from 'ngx-logger';
+import {TreeModule} from 'ng2-tree';
 
 import {MCRLanguageService} from './i18n/mcrlanguage.service'
 import {AuthenticationService} from "./services/authentication/authentication.service";
@@ -23,6 +24,7 @@ import {LoginareaComponent} from './mir/loginarea/loginarea.component';
 import {ServererrorComponent} from './error/servererror/servererror.component';
 import {MirComponent} from './mir/mir.component';
 import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
+import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-builder.component';
 
 
 @NgModule({
@@ -37,26 +39,29 @@ import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.s
     FooterComponent,
     RegisterlocalComponent,
     LoginareaComponent,
+    NavigationBuilderComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
+    TreeModule,
 
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
     LoggerModule.forRoot({level: 'INFO'}),
 
     RouterModule.forRoot([
 
-      {path: '', redirectTo: 'mir', pathMatch: 'full' },
+      {path: '', redirectTo: 'mir', pathMatch: 'full'},
 
       {
         path: 'mir', component: MirComponent,
         children: [
           {path: '', component: StartComponent},
           {path: 'loginarea', component: LoginareaComponent},
-          {path: 'loginarea/new-author', component: RegisterlocalComponent}
+          {path: 'loginarea/new-author', component: RegisterlocalComponent},
+          {path: 'navigationbuilder', component: NavigationBuilderComponent}
         ]
 
       },

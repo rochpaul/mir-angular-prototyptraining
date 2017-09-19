@@ -20,9 +20,13 @@ export class AuthenticationService {
     return Observable.create(observer => {
 
       // Make the HTTP request:
-      this.http.get(authorizationURL).subscribe((res:Response) => {
+      this.http.get(authorizationURL, {observe: 'response'}).subscribe(
+
+        res => {
 
         console.log(res.headers);
+
+        console.log(res.headers.get('Authorization'));
         // you can assign the value to any variable here
         // Read the result field from the JSON response.
 
