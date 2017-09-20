@@ -6,6 +6,7 @@ import {RouterModule} from '@angular/router';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {LoggerModule} from 'ngx-logger';
 import {TreeModule} from 'ng2-tree';
+import { CKEditorModule } from 'ng2-ckeditor';
 
 import {MCRLanguageService} from './i18n/mcrlanguage.service'
 import {AuthenticationService} from "./services/authentication/authentication.service";
@@ -47,6 +48,7 @@ import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-bu
     HttpClientModule,
     ReactiveFormsModule,
     TreeModule,
+    CKEditorModule,
 
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
     LoggerModule.forRoot({level: 'INFO'}),
