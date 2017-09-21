@@ -60,7 +60,7 @@ export class NavigationBuilderComponent implements OnInit {
 
   handleSelected($event) {
 
-    this.markElementsService.sendMessage($event.node.node.id);
+    this.markElementsService.sendNavigationId($event.node.node.id);
   }
 
   // save($event) {

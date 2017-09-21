@@ -37,9 +37,9 @@ export class FooterComponent implements OnInit {
     // }
   }
 
-  constructor(private translate: TranslateService, private markElementsService: MarkNavigationElementsService) {
+  constructor(private markElementsService: MarkNavigationElementsService) {
 
-    this.markElementsService.getMessage().subscribe(message => {
+    this.markElementsService.getNavigationId().subscribe(message => {
 
       console.log(this.navigationId);
       this.navigationId = message.text;
@@ -47,15 +47,8 @@ export class FooterComponent implements OnInit {
 
       this.markState = 'stateIn';
 
-      var componentTemplate = getAnnotation(FooterComponent);
+      markElementsService.sendMessagesFromComponent(FooterComponent);
 
-
-
-
-      console.log(componentTemplate);
-
-
-      console.log(translate);
       //
       //     @Component({
       //       selector : 'my-fader',

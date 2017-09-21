@@ -1,25 +1,40 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Type} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Subject} from 'rxjs/Subject';
+import {getAnnotation} from "../../../annotation";
 
 @Injectable()
 export class MarkNavigationElementsService {
 
-  private subject = new Subject<any>();
+  private navigationSubject = new Subject<any>();
 
   constructor() {
   }
 
-  sendMessage(message: string) {
-    this.subject.next({text: message});
+  sendNavigationId(navigationId: string) {
+    this.navigationSubject.next({text: navigationId});
   }
 
-  clearMessage() {
-    this.subject.next();
+  clearNavigationId() {
+    this.navigationSubject.next();
   }
 
-  getMessage(): Observable<any> {
-    return this.subject.asObservable();
+  getNavigationId(): Observable<any> {
+    return this.navigationSubject.asObservable();
+  }
+
+  sendMessagesFromComponent(component: Type<any>) {
+
+    let componentDecorators = getAnnotation(component);
+    let componentTemplate = componentDecorators['template'];
+
+    var regex = "[\n\r].*messages.\s*([^\n\r]*)";
+    var test = componentTemplate.match(regex);
+
+
+    console.log(test);
+
+
   }
 
 }
