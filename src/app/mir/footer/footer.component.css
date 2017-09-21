@@ -1,0 +1,11 @@
+.markComponent {
+  animation: myfirst 1s 1;
+}
+
+@keyframes myfirst
+{
+  0%      {background:blue;}
+  25%     {background:yellow;}
+  75%     {background:yellow;}
+  100%    {background:#2C3E50;}
+}

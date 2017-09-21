@@ -1,18 +1,18 @@
 <div id="page" class="container">
   <div id="main_content">
 
-    <ckeditor
-      [(ngModel)]="ckeditorContent">
+    <!--<ckeditor-->
+      <!--[(ngModel)]="ckeditorContent">-->
 
-      <ckbutton [name]="'saveButton'"
-                [command]="'saveCmd'"
-                (click)="save($event)"
-                [icon]="'save.png'"
-                [label]="'Save Document'"
-                [toolbar]="'clipboard,1'">
-      </ckbutton>
-    </ckeditor>
+      <!--<ckbutton [name]="'saveButton'"-->
+                <!--[command]="'saveCmd'"-->
+                <!--(click)="save($event)"-->
+                <!--[icon]="'save.png'"-->
+                <!--[label]="'Save Document'"-->
+                <!--[toolbar]="'clipboard,1'">-->
+      <!--</ckbutton>-->
+    <!--</ckeditor>-->
 
-    <!--<tree [tree]="tree"></tree>-->
+    <tree [tree]="tree" (nodeSelected)="handleSelected($event)"></tree>
   </div>
 </div>

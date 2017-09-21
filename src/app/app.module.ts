@@ -6,7 +6,7 @@ import {RouterModule} from '@angular/router';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {LoggerModule} from 'ngx-logger';
 import {TreeModule} from 'ng2-tree';
-import { CKEditorModule } from 'ng2-ckeditor';
+import {CKEditorModule} from 'ng2-ckeditor';
 
 import {MCRLanguageService} from './i18n/mcrlanguage.service'
 import {AuthenticationService} from "./services/authentication/authentication.service";
@@ -26,6 +26,7 @@ import {ServererrorComponent} from './error/servererror/servererror.component';
 import {MirComponent} from './mir/mir.component';
 import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
 import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-builder.component';
+import {MarkNavigationElementsService} from "./services/navigation/mark-navigation-elements.service";
 
 
 @NgModule({
@@ -79,7 +80,7 @@ import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-bu
     })
 
   ],
-  providers: [MCRLanguageService, MCRServerStatusService, AuthenticationService],
+  providers: [MarkNavigationElementsService, MCRLanguageService, MCRServerStatusService, AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
