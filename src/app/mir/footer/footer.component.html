@@ -1,38 +1,58 @@
 <div class="container">
-  <div class="row" [@markState]="markState" (@markState.done)="onDone($event)">
+  <div class="row" [@markState]="navigationId === 'navigation.default.footer' ?  markState : ''"
+       (@markState.done)="onDone($event)">
     <div class="col-xs-12 col-sm-6 col-md-4">
       <h4>Über uns</h4>
       <p>
-        MIR ein klassicher institutioneller Publikations- bzw. Dokumentenserver. Es basiert auf dem Repository-Framework MyCoRe und
+        MIR ein klassicher institutioneller Publikations- bzw. Dokumentenserver. Es basiert auf dem Repository-Framework
+        MyCoRe und
         dem Metadata Object Description Schema (MODS).
         <span class="read_more"><a href="#">Mehr erfahren ...</a></span>
       </p>
     </div>
     <div class="col-xs-6 col-sm-3 col-md-2">
-      <h4>Navigation</h4>
-      <ul class="internal_links">
-        <li class="active">
-          <a href="#">Start</a>
-        </li>
-        <li>
-          <a href="#">Impressum</a>
-        </li>
-        <li>
-          <a href="#">Kontakt</a>
-        </li>
-      </ul>
+      <div [@markState]="navigationId === 'navigation.default.footer.menu' ?  markState : ''"
+           (@markState.done)="onDone($event)">
+        <h4>Navigation</h4>
+        <ul class="internal_links">
+          <li class="active">
+            <div [@markState]="navigationId === 'navigation.default.footer.menu.start' ?  markState : ''"
+                 (@markState.done)="onDone($event)">
+              <a href="#">Start</a>
+            </div>
+          </li>
+          <li>
+            <div [@markState]="navigationId === 'navigation.default.footer.menu.impressum' ?  markState : ''"
+                 (@markState.done)="onDone($event)">
+              <a href="#">Impressum</a>
+            </div>
+          </li>
+          <li>
+            <div [@markState]="navigationId === 'navigation.default.footer.menu.contact' ?  markState : ''"
+                 (@markState.done)="onDone($event)">
+              <a href="#">Kontakt</a>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="col-xs-6 col-sm-3 col-md-2">
       <h4>Netzwerke</h4>
       <ul class="social_links">
         <li>
-          <a href="#"><button class="social_icons social_icon_fb" type="button"></button>Facebook</a>
+          <a href="#">
+            <button class="social_icons social_icon_fb" type="button"></button>
+            Facebook</a>
         </li>
         <li>
-          <a href="#"><button class="social_icons social_icon_tw" type="button"></button>Twitter</a>
+          <a href="#">
+            <button class="social_icons social_icon_tw" type="button"></button>
+            Twitter</a>
         </li>
         <li>
-          <a href="#"><button class="social_icons social_icon_gg" type="button"></button>Google+</a>
+          <a href="#">
+            <button class="social_icons social_icon_gg" type="button"></button>
+            Google+</a>
         </li>
       </ul>
     </div>
@@ -53,5 +73,6 @@
   </div>
 </div>
 <div id="powered_by">
-  <a href="http://www.mycore.de"><img alt="powered by MyCoRe" title="" src="http://www.mycore.de/mir/mir-layout/images/mycore_logo_small_invert.png"></a>
+  <a href="http://www.mycore.de"><img alt="powered by MyCoRe" title=""
+                                      src="http://www.mycore.de/mir/mir-layout/images/mycore_logo_small_invert.png"></a>
 </div>

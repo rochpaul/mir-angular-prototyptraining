@@ -33,14 +33,14 @@ export class NavigationBuilderComponent implements OnInit {
             ]
           },
           {
-            value: 'Footer', id: 'footer.component',
+            value: 'Footer', id: 'navigation.default.footer',
             children: [
               {
-                value: 'Mir Menü', id: 7,
+                value: 'Mir Menü', id: 'navigation.default.footer.menu',
                 children: [
-                  {value: 'Start', id: 8},
-                  {value: 'Impressum', id: 9},
-                  {value: 'Kontakt', id: 10}
+                  {value: 'Start', id: 'navigation.default.footer.menu.start'},
+                  {value: 'Impressum', id: 'navigation.default.footer.menu.impressum'},
+                  {value: 'Kontakt', id: 'navigation.default.footer.menu.contact'}
                 ]
               }
             ]
@@ -60,7 +60,7 @@ export class NavigationBuilderComponent implements OnInit {
 
   handleSelected($event) {
 
-    this.markElementsService.sendMessage('Message from Home Component to App Component!');
+    this.markElementsService.sendMessage($event.node.node.id);
   }
 
   // save($event) {

@@ -11,18 +11,20 @@ import {MarkNavigationElementsService} from "../../services/navigation/mark-navi
   animations: [
     trigger('markState', [
       state('stateIn', style({
+
         border: "5px dotted #3a7999",
         //color: "#3a7999",
         background: "rgba(0,0,0,0)",
       })),
       state('stateOut', style({})),
-      transition('stateIn  => stateOut', animate('200ms ease-in')),
+      transition('stateIn  => stateOut', animate('450ms ease-in')),
     ])
   ]
 })
 export class FooterComponent implements OnInit {
 
   markState = 'stateOut';
+  navigationId = '123';
 
   onDone($event) {
 
@@ -36,6 +38,10 @@ export class FooterComponent implements OnInit {
   constructor(private markElementsService: MarkNavigationElementsService) {
 
     this.markElementsService.getMessage().subscribe(message => {
+
+      console.log(this.navigationId);
+      this.navigationId = message.text;
+      console.log(this.navigationId);
 
       this.markState = 'stateIn';
 
@@ -59,7 +65,7 @@ export class FooterComponent implements OnInit {
       //     }
 
 
-      console.log(message);
+      //console.log(message);
     });
   }
 
