@@ -2,7 +2,7 @@
   <div class="row" [@markState]="navigationId === 'navigation.default.footer' ?  markState : ''"
        (@markState.done)="onDone($event)">
     <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4>Über uns</h4>
+      <h4>{{ 'messages.clientapp.navigation.default.footer.aboutus' | translate}}</h4>
       <p>
         MIR ein klassicher institutioneller Publikations- bzw. Dokumentenserver. Es basiert auf dem Repository-Framework
         MyCoRe und

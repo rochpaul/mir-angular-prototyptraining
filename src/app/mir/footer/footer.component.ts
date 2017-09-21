@@ -1,8 +1,10 @@
 import {Component, OnInit, Input} from '@angular/core';
 import  {trigger, state, transition, style, animate} from '@angular/animations';
+import {TranslateService} from '@ngx-translate/core';
 
 
 import {MarkNavigationElementsService} from "../../services/navigation/mark-navigation-elements.service";
+import {getAnnotation} from "../../../annotation";
 
 @Component({
   selector: '[mir-footer]',
@@ -17,7 +19,7 @@ import {MarkNavigationElementsService} from "../../services/navigation/mark-navi
         background: "rgba(0,0,0,0)",
       })),
       state('stateOut', style({})),
-      transition('stateIn  => stateOut', animate('450ms ease-in')),
+      transition('* <=> *', animate('450ms ease-in')),
     ])
   ]
 })
@@ -30,12 +32,12 @@ export class FooterComponent implements OnInit {
 
     console.log("done");
 
-    if (this.markState === 'stateIn') {
-      this.markState = 'stateOut';
-    }
+    // if (this.markState === 'stateIn') {
+    //   this.markState = 'stateOut';
+    // }
   }
 
-  constructor(private markElementsService: MarkNavigationElementsService) {
+  constructor(private translate: TranslateService, private markElementsService: MarkNavigationElementsService) {
 
     this.markElementsService.getMessage().subscribe(message => {
 
@@ -45,6 +47,15 @@ export class FooterComponent implements OnInit {
 
       this.markState = 'stateIn';
 
+      var componentTemplate = getAnnotation(FooterComponent);
+
+
+
+
+      console.log(componentTemplate);
+
+
+      console.log(translate);
       //
       //     @Component({
       //       selector : 'my-fader',
