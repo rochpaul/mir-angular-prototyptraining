@@ -27,6 +27,7 @@ import {MirComponent} from './mir/mir.component';
 import {MCRServerStatusService} from "./services/serverstatus/mcrserver-status.service";
 import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-builder.component';
 import {MarkNavigationElementsService} from "./services/navigation/mark-navigation-elements.service";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import {MarkNavigationElementsService} from "./services/navigation/mark-navigati
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
