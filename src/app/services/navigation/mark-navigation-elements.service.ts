@@ -28,13 +28,37 @@ export class MarkNavigationElementsService {
     let componentDecorators = getAnnotation(component);
     let componentTemplate = componentDecorators['template'];
 
-    var regex = "[\n\r].*messages.\s*([^\n\r]*)";
-    var test = componentTemplate.match(regex);
+    /*
+     * first get all strings between messages. and translate
+     */
+    let splittedTemplate = componentTemplate.split(/messages([\s\S]*?)translate/);
 
+    const suffixStart = '.';
+    const suffixEnd = ' | ';
 
-    console.log(test);
+    let messages: string[] = new Array();
 
+    for (let templatePart of splittedTemplate) {
 
+      /*
+       * get only correct messages
+       */
+      if (templatePart.substring(0, suffixStart.length) === suffixStart &&
+        templatePart.indexOf(suffixEnd, templatePart.length - suffixEnd.length) !== -1) {
+
+        templatePart = templatePart.substring(1, templatePart.length);
+        templatePart = templatePart.replace(" | ", "");
+
+        if (!(messages.indexOf(templatePart) > -1)) {
+          messages.push(templatePart);
+        }
+      }
+    }
+
+    console.log(messages);
   }
-
 }
+
+
+
+
