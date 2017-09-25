@@ -1,11 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import  {trigger, state, transition, style, animate} from '@angular/animations';
-import {TranslateService} from '@ngx-translate/core';
-
-
 import {MarkNavigationElementsService} from "../../services/navigation/mark-navigation-elements.service";
-import {getAnnotation} from "../../../annotation";
-import {RegisterlocalComponent} from "../loginarea/registerlocal/registerlocal.component";
 
 @Component({
   selector: '[mir-footer]',
@@ -48,7 +43,7 @@ export class FooterComponent implements OnInit {
 
       this.markState = 'stateIn';
 
-      markElementsService.sendMessagesFromComponent(RegisterlocalComponent);
+      markElementsService.sendMessagesFromComponent(FooterComponent);
 
       //
       //     @Component({

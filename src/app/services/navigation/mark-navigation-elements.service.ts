@@ -34,23 +34,25 @@ export class MarkNavigationElementsService {
     let splittedTemplate = componentTemplate.split(/messages([\s\S]*?)translate/);
 
     const suffixStart = '.';
-    const suffixEnd = ' | ';
+    const suffixEnd = '|';
 
     let messages: string[] = new Array();
 
     for (let templatePart of splittedTemplate) {
 
+      let trimmedPart = templatePart.trim();
+
       /*
        * get only correct messages
        */
-      if (templatePart.substring(0, suffixStart.length) === suffixStart &&
-        templatePart.indexOf(suffixEnd, templatePart.length - suffixEnd.length) !== -1) {
+      if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
+        trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
 
-        templatePart = templatePart.substring(1, templatePart.length);
-        templatePart = templatePart.replace(" | ", "");
+        trimmedPart = trimmedPart.substring(1, trimmedPart.length);
+        trimmedPart = trimmedPart.replace(suffixEnd, "");
 
-        if (!(messages.indexOf(templatePart) > -1)) {
-          messages.push(templatePart);
+        if (!(messages.indexOf(trimmedPart) > -1)) {
+          messages.push(trimmedPart);
         }
       }
     }
