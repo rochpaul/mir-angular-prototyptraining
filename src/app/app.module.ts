@@ -29,6 +29,7 @@ import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-bu
 import {MarkNavigationElementsService} from "./services/navigation/mark-navigation-elements.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
+import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-manager/mcrmessages-manager.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
     RegisterlocalComponent,
     LoginareaComponent,
     NavigationBuilderComponent,
+    MCRMessagesManagerComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,7 @@ import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
     CKEditorModule,
 
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
-    LoggerModule.forRoot({level: 'INFO'}),
+    LoggerModule.forRoot({level: 'DEBUG'}),
 
     RouterModule.forRoot([
 

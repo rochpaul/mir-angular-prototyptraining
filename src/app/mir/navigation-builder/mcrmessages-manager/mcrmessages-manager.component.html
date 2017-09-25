@@ -1,0 +1,8 @@
+<div formArrayName="items"
+     *ngFor="let item of mcrMessagesForm.get('mcrmmessageItems').controls; let i = index;">
+  <div [formGroupName]="i">
+    <label class="col-md-3 control-label">
+      <p>mcmessage</p>
+    </label>
+  </div>
+</div>

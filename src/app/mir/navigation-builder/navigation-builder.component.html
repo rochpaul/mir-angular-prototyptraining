@@ -2,17 +2,26 @@
   <div id="main_content">
 
     <!--<ckeditor-->
-      <!--[(ngModel)]="ckeditorContent">-->
+    <!--[(ngModel)]="ckeditorContent">-->
 
-      <!--<ckbutton [name]="'saveButton'"-->
-                <!--[command]="'saveCmd'"-->
-                <!--(click)="save($event)"-->
-                <!--[icon]="'save.png'"-->
-                <!--[label]="'Save Document'"-->
-                <!--[toolbar]="'clipboard,1'">-->
-      <!--</ckbutton>-->
+    <!--<ckbutton [name]="'saveButton'"-->
+    <!--[command]="'saveCmd'"-->
+    <!--(click)="save($event)"-->
+    <!--[icon]="'save.png'"-->
+    <!--[label]="'Save Document'"-->
+    <!--[toolbar]="'clipboard,1'">-->
+    <!--</ckbutton>-->
     <!--</ckeditor>-->
 
     <tree [tree]="tree" (nodeSelected)="handleSelected($event)"></tree>
+
+
+    <div>
+
+      <app-mcrmessages-manager></app-mcrmessages-manager>
+
+    </div>
   </div>
+
+
 </div>

@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {MarkNavigationElementsService} from "../../services/navigation/mark-navigation-elements.service";
 import {McrmessagesService} from "../../services/mcrmessages/mcrmessages.service";
 import {TranslateService} from "@ngx-translate/core";
+import {NGXLogger} from "ngx-logger";
 
 @Component({
   selector: 'app-navigation-builder',
@@ -52,24 +53,8 @@ export class NavigationBuilderComponent implements OnInit {
     ]
   };
 
-  constructor(private translateService: TranslateService,
-              private http: HttpClient,
-              private markElementsService: MarkNavigationElementsService,
-              private mcrmessagesService: McrmessagesService) {
+  constructor(private markElementsService: MarkNavigationElementsService) {
 
-
-    this.mcrmessagesService.getMessagesFromComponent().subscribe(mcrmessageKeys => {
-
-      for (let mcrmessageKey of mcrmessageKeys) {
-
-        console.log(mcrmessageKey);
-        translateService.get('messages.' + mcrmessageKey).subscribe(
-          mcrMessageProperty => {
-            console.log(mcrMessageProperty);
-          }
-        )
-      }
-    });
   }
 
   @ViewChild('treeComponent') treeComponent;

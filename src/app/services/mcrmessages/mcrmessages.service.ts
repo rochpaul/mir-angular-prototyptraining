@@ -42,7 +42,8 @@ export class McrmessagesService {
         /*
          * remove whitespaces!
          */
-        trimmedPart = trimmedPart.replace("' " + suffixEnd, "");
+        trimmedPart = trimmedPart.replace(/ /g, '')
+        trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
 
         if (!(messages.indexOf(trimmedPart) > -1)) {
           messages.push(trimmedPart);
