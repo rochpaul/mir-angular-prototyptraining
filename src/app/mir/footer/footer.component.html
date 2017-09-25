@@ -2,9 +2,9 @@
   <div class="row" [@markState]="navigationId === 'navigation.default.footer' ?  markState : ''"
        (@markState.done)="onDone($event)">
     <div class="col-xs-12 col-sm-6 col-md-4">
-      <h4>{{ 'messages.clientapp.navigation.default.footer.aboutus' |translate }}</h4>
+      <h4>{{ 'messages.clientapp.navigation.default.footer.aboutus' | translate }}</h4>
       <p>
-        {{ 'messages.clientapp.navigation.default.footer.description'| translate}}
+        {{ 'messages.clientapp.navigation.default.footer.description' | translate}}
         <span class="read_more"><a href="#">{{ 'messages.clientapp.navigation.default.footer.getmore' | translate }}</a></span>
       </p>
     </div>

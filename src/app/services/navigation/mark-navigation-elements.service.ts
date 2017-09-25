@@ -22,43 +22,6 @@ export class MarkNavigationElementsService {
   getNavigationId(): Observable<any> {
     return this.navigationSubject.asObservable();
   }
-
-  sendMessagesFromComponent(component: Type<any>) {
-
-    let componentDecorators = getAnnotation(component);
-    let componentTemplate = componentDecorators['template'];
-
-    /*
-     * first get all strings between messages. and translate
-     */
-    let splittedTemplate = componentTemplate.split(/messages([\s\S]*?)translate/);
-
-    const suffixStart = '.';
-    const suffixEnd = '|';
-
-    let messages: string[] = new Array();
-
-    for (let templatePart of splittedTemplate) {
-
-      let trimmedPart = templatePart.trim();
-
-      /*
-       * get only correct messages
-       */
-      if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
-        trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
-
-        trimmedPart = trimmedPart.substring(1, trimmedPart.length);
-        trimmedPart = trimmedPart.replace(suffixEnd, "");
-
-        if (!(messages.indexOf(trimmedPart) > -1)) {
-          messages.push(trimmedPart);
-        }
-      }
-    }
-
-    console.log(messages);
-  }
 }
 
 

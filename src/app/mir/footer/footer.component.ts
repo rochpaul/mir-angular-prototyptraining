@@ -1,6 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
 import  {trigger, state, transition, style, animate} from '@angular/animations';
 import {MarkNavigationElementsService} from "../../services/navigation/mark-navigation-elements.service";
+import {McrmessagesService} from "../../services/mcrmessages/mcrmessages.service";
+import {NGXLogger} from "ngx-logger";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: '[mir-footer]',
@@ -22,7 +25,7 @@ import {MarkNavigationElementsService} from "../../services/navigation/mark-navi
 export class FooterComponent implements OnInit {
 
   markState = 'stateOut';
-  navigationId = '123';
+  navigationId = '';
 
   onDone($event) {
 
@@ -33,18 +36,26 @@ export class FooterComponent implements OnInit {
     // }
   }
 
-  constructor(private markElementsService: MarkNavigationElementsService) {
+  constructor(private logger: NGXLogger,
+              private markElementsService: MarkNavigationElementsService,
+              private mcrmessagesService: McrmessagesService) {
 
-    this.markElementsService.getNavigationId().subscribe(message => {
 
-      console.log(this.navigationId);
-      this.navigationId = message.text;
-      console.log(this.navigationId);
+    this.markElementsService.getNavigationId().subscribe(componentId => {
 
-      this.markState = 'stateIn';
+      if (componentId.text === 'navigation.default.footer') {
 
-      markElementsService.sendMessagesFromComponent(FooterComponent);
+        logger.info("FooterComponent: markElementsService with componentId " + componentId.text + " emitted");
 
+        this.navigationId = componentId.text;
+        console.log(this.navigationId);
+
+        this.markState = 'stateIn';
+
+        logger.info("FooterComponent: Start to receive messages from Component template");
+
+        mcrmessagesService.sendMessagesFromComponent(FooterComponent);
+      }
       //
       //     @Component({
       //       selector : 'my-fader',
