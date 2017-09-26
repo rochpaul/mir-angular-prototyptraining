@@ -1,8 +1,20 @@
-<div formArrayName="items"
-     *ngFor="let item of mcrMessagesForm.get('mcrmmessageItems').controls; let i = index;">
-  <div [formGroupName]="i">
-    <label class="col-md-3 control-label">
-      <p>mcmessage</p>
-    </label>
-  </div>
-</div>
+<form [formGroup]="mcrmessagesForm">
+
+  <div formArrayName="mcrMessages">
+    <table class="simple-table">
+      <tr>
+        <th>MyCore Message Key</th>
+        <th>MyCore Message Value</th>
+      </tr>
+      <tbody>
+      <tr [formGroupName]="i" *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">
+        <td>{{item.mcrmessage.messagekey}} - index {{i}}</td>
+        <!--<td><input type="text" formControlName="value"/></td>-->
+        <!--<td><input type="text" formControlName="fixed"></td>-->
+      </tr>
+      </tbody>
+    </table>
+  </div> <!-- end: div FormArrayName -->
+</form>
+<br><br>
+<!--<button (click)='abc()'>fsdfsdfsdf</button>-->

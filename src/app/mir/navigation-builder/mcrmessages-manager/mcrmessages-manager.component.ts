@@ -2,7 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrmessagesService} from "../../../services/mcrmessages/mcrmessages.service";
-import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
+import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
+
+export class McrMessagesModel {
+
+  messagekey: string;
+  messagevalue: string;
+
+  constructor(messagekey, messagevalue) {
+    this.messagekey = messagekey;
+    this.messagevalue = messagevalue;
+  }
+}
 
 @Component({
   selector: 'app-mcrmessages-manager',
@@ -11,47 +22,46 @@ import {FormBuilder, FormGroup, FormArray} from '@angular/forms';
 })
 export class MCRMessagesManagerComponent implements OnInit {
 
-  mcrMessagesForm: FormGroup;
+  mcrmessagesForm: FormGroup;
+
 
   constructor(private formBuilder: FormBuilder,
               private translateService: TranslateService,
               private logger: NGXLogger,
               private mcrmessagesService: McrmessagesService) {
 
-
-    this.mcrmessagesService.getMessagesFromComponent().subscribe(mcrmessageKeys => {
-
-      const control = <FormArray>this.mcrMessagesForm.controls['mcrmmessageItems'];
-
-      for (let mcrmessageKey of mcrmessageKeys) {
-
-        translateService.get('messages.' + mcrmessageKey).subscribe(
-          mcrMessageValue => {
-
-            control.push(this.patchValues(mcrmessageKey, mcrMessageValue));
-
-            logger.debug("MCRMessagesManager:: " + mcrmessageKey + ": " + mcrMessageValue);
-          }
-        )
-      }
-
-
-    });
   }
 
   ngOnInit() {
-    this.mcrMessagesForm =
 
-      this.formBuilder.group({
-        mcrmmessageItems: this.formBuilder.array([]) // create empty form array
-      });
+    // initialize form
+    this.mcrmessagesForm = new FormGroup({
+      mcrMessages: new FormArray([])
+    });
+
+
+    this.mcrmessagesService.getMessagesFromComponent().subscribe(mcrmessageKeys => {
+
+      // get form array
+      const mcrMessages = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+
+      for (let mcrmessageKey of mcrmessageKeys) {
+
+        this.translateService.get('messages.' + mcrmessageKey).subscribe(
+          mcrMessageValue => {
+
+            this.logger.debug("MCRMessagesManager:: " + mcrmessageKey + ": " + mcrMessageValue);
+
+            mcrMessages.push(this.createitems(new McrMessagesModel(mcrmessageKey, mcrMessageValue)));
+          }
+        )
+      }
+    });
   }
 
-  // assign the values
-  patchValues(mcrMessageKey, mcrMessageValue) {
+  createitems(mcrmessage?: McrMessagesModel) {
     return this.formBuilder.group({
-      mcrMessageKey: [mcrMessageKey],
-      mcrMessageValue: [mcrMessageValue]
-    })
+      mcrmessage: [mcrmessage]
+    });
   }
 }
