@@ -3,17 +3,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrmessagesService} from "../../../services/mcrmessages/mcrmessages.service";
 import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
-
-export class McrMessagesModel {
-
-  messagekey: string;
-  messagevalue: string;
-
-  constructor(messagekey, messagevalue) {
-    this.messagekey = messagekey;
-    this.messagevalue = messagevalue;
-  }
-}
+import {McrMessagesModel} from "../../../services/mcrmessages/mcrmessages.model";
 
 @Component({
   selector: 'app-mcrmessages-manager',

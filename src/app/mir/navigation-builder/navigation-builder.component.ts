@@ -15,10 +15,13 @@ import {NGXLogger} from "ngx-logger";
 })
 export class NavigationBuilderComponent implements OnInit {
 
+  // Differenciate navigation && component browser
+
+  activeComponent: string;
+
   /*
    * api reference https://github.com/valor-software/ng2-tree
    */
-  ckeditorContent = `<p>My HTML</p>`;
   public tree: TreeModel = {
     value: 'Navigationseinstellungen',
     id: 1,
@@ -53,7 +56,7 @@ export class NavigationBuilderComponent implements OnInit {
     ]
   };
 
-  constructor(private markElementsService: MarkNavigationElementsService) {
+  constructor(private markElementsService: MarkNavigationElementsService, private logger: NGXLogger) {
 
   }
 
@@ -65,7 +68,26 @@ export class NavigationBuilderComponent implements OnInit {
 
   handleSelected($event) {
 
-    this.markElementsService.sendNavigationId($event.node.node.id);
+    /*
+     * set active component
+     */
+    if ($event.node.node.id !== this.activeComponent) {
+
+      /*
+       * look for changed values
+       */
+
+
+
+
+      /*
+       * send active component id
+       */
+      this.logger.info("ComponentBrowser: Change active Component to " + this.activeComponent);
+
+      this.activeComponent = ($event.node.node.id);
+      this.markElementsService.sendNavigationId($event.node.node.id);
+    }
   }
 
   // save($event) {

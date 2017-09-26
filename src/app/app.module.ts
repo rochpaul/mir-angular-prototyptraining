@@ -30,6 +30,7 @@ import {MarkNavigationElementsService} from "./services/navigation/mark-navigati
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
 import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-manager/mcrmessages-manager.component';
+import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component-browser.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-
     LoginareaComponent,
     NavigationBuilderComponent,
     MCRMessagesManagerComponent,
+    ComponentBrowserComponent,
   ],
   imports: [
     BrowserModule,
