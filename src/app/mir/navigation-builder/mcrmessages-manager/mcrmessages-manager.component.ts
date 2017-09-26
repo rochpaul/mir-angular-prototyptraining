@@ -42,10 +42,12 @@ export class MCRMessagesManagerComponent implements OnInit {
 
             logger.debug("MCRMessagesManager:: " + mcrmessageKey + ": " + mcrMessageValue);
 
-            //mcrMessages.push(this.createitems(new McrMessagesModel(mcrmessageKey, mcrMessageValue)));
+            mcrMessages.push(this.createitems(new McrMessagesModel(mcrmessageKey, mcrMessageValue)));
           }
         )
       }
+
+      console.log(mcrMessages);
     });
   }
 
@@ -57,9 +59,9 @@ export class MCRMessagesManagerComponent implements OnInit {
     });
   }
 
-  // createitems(mcrmessage?: McrMessagesModel) {
-  //   return this.formBuilder.group({
-  //     mcrmessage: [mcrmessage]
-  //   });
-  // }
+  createitems(mcrmessage?: McrMessagesModel) {
+    return this.formBuilder.group({
+      mcrmessage: [mcrmessage]
+    });
+  }
 }
