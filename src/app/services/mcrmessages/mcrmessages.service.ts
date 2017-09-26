@@ -3,16 +3,17 @@ import {Subject, Observable} from "rxjs";
 import {getAnnotation} from "../../../annotation";
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
+import {McrMessagesModel} from "./mcrmessages.model";
 
 @Injectable()
 export class McrmessagesService {
 
-  private messagesSubject = new Subject<string[]>();
+  private mcrmessagesSubject = new Subject<McrMessagesModel[]>();
 
-  constructor(private translate: TranslateService, private logger: NGXLogger,) {
+  constructor(private translateService: TranslateService, private logger: NGXLogger,) {
   }
 
-  sendMessagesFromComponent(component: Type<any>) {
+  sendMCRMessagesFromComponent(component: Type<any>) {
 
     let componentDecorators = getAnnotation(component);
     let componentTemplate = componentDecorators['template'];
@@ -25,7 +26,8 @@ export class McrmessagesService {
     const suffixStart = '.';
     const suffixEnd = '|';
 
-    let messages: string[] = new Array();
+    let mcrmessageValues: string[] = new Array();
+    let mcrmessages: McrMessagesModel[] = new Array();
 
     for (let templatePart of splittedTemplate) {
 
@@ -45,23 +47,28 @@ export class McrmessagesService {
         trimmedPart = trimmedPart.replace(/ /g, '')
         trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
 
-        if (!(messages.indexOf(trimmedPart) > -1)) {
-          messages.push(trimmedPart);
+        if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
+          mcrmessageValues.push(trimmedPart);
+
+          this.translateService.get('messages.' + trimmedPart).subscribe(
+            mcrMessageValue => {
+
+              mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+            });
         }
       }
     }
 
     //"FooterComponent: request for message.properties in language " + translate.currentLang + );
 
-    this.messagesSubject.next(messages);
+    this.mcrmessagesSubject.next(mcrmessages);
   }
 
-  clearMessagesFromComponent() {
-    this.messagesSubject.next();
+  clearMCRMessagesSubject() {
+    this.mcrmessagesSubject.next();
   }
 
-  getMessagesFromComponent(): Observable<string[]> {
-    return this.messagesSubject.asObservable();
+  getMCRMessagesFromComponent(): Observable < McrMessagesModel[] > {
+    return this.mcrmessagesSubject.asObservable();
   }
-
 }

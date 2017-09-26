@@ -16,29 +16,22 @@ export class MCRMessagesManagerComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,
-              private translateService: TranslateService,
               private logger: NGXLogger,
               private mcrmessagesService: McrmessagesService) {
 
-    mcrmessagesService.getMessagesFromComponent().subscribe(mcrmessageKeys => {
+    mcrmessagesService.getMCRMessagesFromComponent().subscribe(mcrmessages => {
 
-      // get form array
-      const mcrMessages = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+        // get form array
+        const mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
-      for (let mcrmessageKey of mcrmessageKeys) {
+        for (let mcrmessage of mcrmessages) {
 
-        translateService.get('messages.' + mcrmessageKey).subscribe(
-          mcrMessageValue => {
+          logger.debug("MCRMessagesManager:: " + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
 
-            logger.debug("MCRMessagesManager:: " + mcrmessageKey + ": " + mcrMessageValue);
-
-            mcrMessages.push(this.createitems(new McrMessagesModel(mcrmessageKey, mcrMessageValue)));
-          }
-        )
+          mcrMessagesFormArray.push(this.createitems(mcrmessage));
+        }
       }
-
-      console.log(mcrMessages);
-    });
+    )
   }
 
   ngOnInit() {
