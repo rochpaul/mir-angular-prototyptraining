@@ -13,6 +13,8 @@ import {McrMessagesModel} from "../../../services/mcrmessages/mcrmessages.model"
 export class MCRMessagesManagerComponent implements OnInit {
 
   mcrmessagesForm: FormGroup;
+  mcrmessages: McrMessagesModel[];
+  messagesMofified: boolean;
 
 
   constructor(private formBuilder: FormBuilder,
@@ -21,17 +23,47 @@ export class MCRMessagesManagerComponent implements OnInit {
 
     mcrmessagesService.getMCRMessagesFromComponent().subscribe(mcrmessages => {
 
+        /*
+         * check subscribed messages against messages in form array
+         */
+        this.mcrmessages = mcrmessages;
+
+
         // get form array
         const mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
-        for (let mcrmessage of mcrmessages) {
+        if (mcrMessagesFormArray.length !== 0) {
 
-          logger.debug("MCRMessagesManager:: " + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
+          this.checkModifications();
+        } else {
 
-          mcrMessagesFormArray.push(this.createitems(mcrmessage));
+          for (let mcrmessage of mcrmessages) {
+
+            logger.debug("MCRMessagesManager:: " + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
+
+            mcrMessagesFormArray.push(this.createitems(mcrmessage));
+          }
         }
       }
     )
+  }
+
+  checkModifications() {
+
+    this.logger.debug("MCRMessagesManager: Check for modifications in mcr messages");
+
+    console.log(this.mcrmessagesForm.value);
+
+    // let missing = this.mcrmessagesForm.value.mcrMessages
+    //   .filter(item =>
+    // this.mcrmessages.filter(item => this.mcrmessages.indexOf(item) < 0));
+    //
+    // console.log(missing);
+  }
+
+  changeMcrmessageInForm(event) {
+
+    console.log(event);
   }
 
   ngOnInit() {
