@@ -4,13 +4,19 @@ import {getAnnotation} from "../../../annotation";
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrMessagesModel} from "./mcrmessages.model";
+import {HttpClient} from "@angular/common/http";
+import {appConfig} from "../../app.config";
+import {IMCRLanguage} from "./mcrlanguage.model";
 
 @Injectable()
 export class McrmessagesService {
 
   private mcrmessagesSubject = new Subject<McrMessagesModel[]>();
+  private mcrLanguageSubject = new Subject<String>();
 
-  constructor(private translateService: TranslateService, private logger: NGXLogger,) {
+  constructor(private translateService: TranslateService,
+              private logger: NGXLogger,
+              private http: HttpClient) {
   }
 
   sendMCRMessagesFromComponent(component: Type<any>) {
@@ -53,7 +59,14 @@ export class McrmessagesService {
           this.translateService.get('messages.' + trimmedPart).subscribe(
             mcrMessageValue => {
 
-              mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+              if (this.translateService.currentLang) {
+
+                mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue,
+                  this.translateService.currentLang));
+              } else {
+                mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue,
+                  this.translateService.getDefaultLang()));
+              }
             });
         }
       }
@@ -70,5 +83,25 @@ export class McrmessagesService {
 
   getMCRMessagesFromComponent(): Observable < McrMessagesModel[] > {
     return this.mcrmessagesSubject.asObservable();
+  }
+
+  sendMCRLanguageChange(mcrLanguage: string) {
+
+    this.mcrLanguageSubject.next(mcrLanguage);
+  }
+
+  clearMCRLanguageChangeSubject() {
+    this.mcrLanguageSubject.next();
+  }
+
+  getMCRLanguageChangeSubject(): Observable < String > {
+    return this.mcrLanguageSubject.asObservable();
+  }
+
+// Rest Services
+
+  getAvailableLanguages(): Observable<IMCRLanguage> {
+
+    return this.http.get<IMCRLanguage>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json");
   }
 }

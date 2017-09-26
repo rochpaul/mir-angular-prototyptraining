@@ -46,12 +46,24 @@ export class MCRMessagesManagerComponent implements OnInit {
         }
       }
     )
+
+    mcrmessagesService.getMCRLanguageChangeSubject().subscribe(
+      mcrLanguage => {
+
+        /*
+         * inform user about possible data loss
+         */
+        logger.debug("MCRMessagesManager: Inform user about possible data loss");
+
+      });
+
   }
 
   checkModifications() {
 
     this.logger.debug("MCRMessagesManager: Check for modifications in mcr messages");
 
+    console.log(this.mcrmessages);
     console.log(this.mcrmessagesForm.value);
 
     // let missing = this.mcrmessagesForm.value.mcrMessages
@@ -63,7 +75,7 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   changeMcrmessageInForm(event) {
 
-    console.log(event);
+    console.log(this.mcrmessages);
   }
 
   ngOnInit() {

@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {HttpErrorResponse} from "@angular/common/http";
 import {NGXLogger} from 'ngx-logger';
-import {MCRLanguageService} from "../../i18n/mcrlanguage.service";
 import {Router} from "@angular/router";
+import {McrmessagesService} from "../../services/mcrmessages/mcrmessages.service";
 
 @Component({
   selector: '[mir-header]',
@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit {
   settedLanguage: string;
 
   constructor(private translate: TranslateService,
-              private mcrLanguageService: MCRLanguageService,
+              private mcrmessagesService: McrmessagesService,
               private router: Router,
               private logger: NGXLogger) {
 
@@ -36,6 +36,11 @@ export class HeaderComponent implements OnInit {
      */
     this.settedLanguage = language;
 
+    /*
+     * inform other components
+     */
+    this.mcrmessagesService.sendMCRLanguageChange(language);
+
     this.logger.info(this.mcrlanguages);
 
     this.translate.use(language);
@@ -48,7 +53,7 @@ export class HeaderComponent implements OnInit {
 
   getAvailableLanguages() {
 
-    this.mcrLanguageService.getAvailableLanguages().subscribe(
+    this.mcrmessagesService.getAvailableLanguages().subscribe(
       mcrlanguage => {
 
         this.logger.info('HeaderComponent.getAvailableLanguages(): ' + mcrlanguage.availablelang);

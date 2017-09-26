@@ -8,7 +8,6 @@ import {LoggerModule} from 'ngx-logger';
 import {TreeModule} from 'ng2-tree';
 import {CKEditorModule} from 'ng2-ckeditor';
 
-import {MCRLanguageService} from './i18n/mcrlanguage.service'
 import {AuthenticationService} from "./services/authentication/authentication.service";
 
 import {AppComponent} from './app.component';
@@ -87,7 +86,7 @@ import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component
     })
 
   ],
-  providers: [MarkNavigationElementsService, MCRLanguageService, MCRServerStatusService, AuthenticationService, McrmessagesService],
+  providers: [MarkNavigationElementsService, MCRServerStatusService, AuthenticationService, McrmessagesService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
