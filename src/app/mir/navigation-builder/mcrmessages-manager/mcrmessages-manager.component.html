@@ -1,20 +1,20 @@
 <form [formGroup]="mcrmessagesForm">
 
-  <div formArrayName="mcrMessages">
-    <table class="simple-table">
-      <tr>
-        <th>MyCore Message Key</th>
-        <th>MyCore Message Value</th>
-      </tr>
-      <tbody>
-      <tr [formGroupName]="i" *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">
-        <td>{{item.mcrmessage.messagekey}} - index {{i}}</td>
-        <!--<td><input type="text" formControlName="value"/></td>-->
-        <!--<td><input type="text" formControlName="fixed"></td>-->
-      </tr>
-      </tbody>
-    </table>
-  </div> <!-- end: div FormArrayName -->
+  <!--<div formArrayName="mcrMessages">-->
+    <!--<table class="simple-table">-->
+      <!--<tr>-->
+        <!--<th>MyCore Message Key</th>-->
+        <!--<th>MyCore Message Value</th>-->
+      <!--</tr>-->
+      <!--<tbody>-->
+      <!--<tr [formGroupName]="i" *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">-->
+        <!--<td>{{item.mcrmessage.messagekey}} - index {{i}}</td>-->
+        <!--&lt;!&ndash;<td><input type="text" formControlName="value"/></td>&ndash;&gt;-->
+        <!--&lt;!&ndash;<td><input type="text" formControlName="fixed"></td>&ndash;&gt;-->
+      <!--</tr>-->
+      <!--</tbody>-->
+    <!--</table>-->
+  <!--</div> &lt;!&ndash; end: div FormArrayName &ndash;&gt;-->
 </form>
 <br><br>
 <!--<button (click)='abc()'>fsdfsdfsdf</button>-->
