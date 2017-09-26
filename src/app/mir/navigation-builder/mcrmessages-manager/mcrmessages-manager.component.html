@@ -1,5 +1,4 @@
-<form [formGroup]="mcrmessagesForm">
-
+<form [formGroup]="mcrmessagesForm" class="userEditor form-horizontal">
   <div formArrayName="mcrMessages">
     <table class="simple-table">
       <tr>
@@ -9,12 +8,11 @@
       <tbody>
       <tr [formGroupName]="i" *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">
         <td>{{item.value.mcrmessage.messagekey}}</td>
-        <!--<td><input type="text" formControlName="value"/></td>-->
-        <!--<td><input type="text" formControlName="fixed"></td>-->
+        <td><input class="form-control input-md " type="textarea" defaultValue="{{item.value.mcrmessage.messagevalue}}">
+        </td>
       </tr>
       </tbody>
     </table>
-  </div> <!-- end: div FormArrayName -->
+  </div>
 </form>
 <br><br>
-<!--<button (click)='abc()'>fsdfsdfsdf</button>-->
