@@ -30,8 +30,9 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
 import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-manager/mcrmessages-manager.component';
 import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component-browser.component';
-import { SimpleConfirmComponent } from './mir/dialogs/simple-confirm/simple-confirm.component';
+import {SimpleConfirmComponent} from './mir/dialogs/simple-confirm/simple-confirm.component';
 import {MdDialogModule} from "@angular/material";
+import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
 
 
 @NgModule({
@@ -50,6 +51,7 @@ import {MdDialogModule} from "@angular/material";
     MCRMessagesManagerComponent,
     ComponentBrowserComponent,
     SimpleConfirmComponent,
+    Wcms3mainComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +68,8 @@ import {MdDialogModule} from "@angular/material";
 
     RouterModule.forRoot([
 
+      
+
       {path: '', redirectTo: 'mir', pathMatch: 'full'},
 
       {
@@ -74,7 +78,8 @@ import {MdDialogModule} from "@angular/material";
           {path: '', component: StartComponent},
           {path: 'loginarea', component: LoginareaComponent},
           {path: 'loginarea/new-author', component: RegisterlocalComponent},
-          {path: 'navigationbuilder', component: NavigationBuilderComponent}
+          {path: 'navigationbuilder', component: NavigationBuilderComponent},
+          {path: 'wcms', component: Wcms3mainComponent}
         ]
 
       },
