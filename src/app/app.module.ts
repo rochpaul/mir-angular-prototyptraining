@@ -30,6 +30,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
 import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-manager/mcrmessages-manager.component';
 import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component-browser.component';
+import { SimpleConfirmComponent } from './mir/dialogs/simple-confirm/simple-confirm.component';
+import {MdDialogModule} from "@angular/material";
 
 
 @NgModule({
@@ -47,10 +49,12 @@ import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component
     NavigationBuilderComponent,
     MCRMessagesManagerComponent,
     ComponentBrowserComponent,
+    SimpleConfirmComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MdDialogModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
@@ -87,7 +91,8 @@ import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component
 
   ],
   providers: [MarkNavigationElementsService, MCRServerStatusService, AuthenticationService, McrmessagesService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [SimpleConfirmComponent]
 })
 export class AppModule {
 }

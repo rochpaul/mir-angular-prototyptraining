@@ -4,6 +4,8 @@ import {NGXLogger} from "ngx-logger";
 import {McrmessagesService} from "../../../services/mcrmessages/mcrmessages.service";
 import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
 import {McrMessagesModel} from "../../../services/mcrmessages/mcrmessages.model";
+import {MdDialog, MdDialogRef} from "@angular/material";
+import {SimpleConfirmComponent} from "../../dialogs/simple-confirm/simple-confirm.component";
 
 @Component({
   selector: 'app-mcrmessages-manager',
@@ -13,11 +15,15 @@ import {McrMessagesModel} from "../../../services/mcrmessages/mcrmessages.model"
 export class MCRMessagesManagerComponent implements OnInit {
 
   mcrmessagesForm: FormGroup;
+  mcrMessagesFormArray: FormArray;
+
   mcrmessages: McrMessagesModel[];
   messagesMofified: boolean;
+  dialogRef: MdDialogRef<SimpleConfirmComponent>;
 
 
   constructor(private formBuilder: FormBuilder,
+              public dialog: MdDialog,
               private logger: NGXLogger,
               private mcrmessagesService: McrmessagesService) {
 
@@ -30,9 +36,9 @@ export class MCRMessagesManagerComponent implements OnInit {
 
 
         // get form array
-        const mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+        this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
-        if (mcrMessagesFormArray.length !== 0) {
+        if (this.mcrMessagesFormArray.length !== 0) {
 
           this.checkModifications();
         } else {
@@ -41,7 +47,7 @@ export class MCRMessagesManagerComponent implements OnInit {
 
             logger.debug("MCRMessagesManager:: " + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
 
-            mcrMessagesFormArray.push(this.createitems(mcrmessage));
+            this.mcrMessagesFormArray.push(this.createitems(mcrmessage));
           }
         }
       }
@@ -63,8 +69,34 @@ export class MCRMessagesManagerComponent implements OnInit {
 
     this.logger.debug("MCRMessagesManager: Check for modifications in mcr messages");
 
-    console.log(this.mcrmessages);
-    console.log(this.mcrmessagesForm.value);
+    for (let mcrMessageFormControl of this.mcrMessagesFormArray.controls) {
+
+      if (mcrMessageFormControl.value.changedValue) {
+
+        /*
+         * There have been changes -> marc formpart and inform user
+         */
+
+        console.log(mcrMessageFormControl.value.changedValue);
+
+        this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+          disableClose: false
+        });
+        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
+
+        this.dialogRef.afterClosed().subscribe(result => {
+          if(result) {
+            // do confirmation actions
+          }
+          this.dialogRef = null;
+        });
+
+      }
+    }
+
+
+
+
 
     // let missing = this.mcrmessagesForm.value.mcrMessages
     //   .filter(item =>
@@ -73,10 +105,6 @@ export class MCRMessagesManagerComponent implements OnInit {
     // console.log(missing);
   }
 
-  changeMcrmessageInForm(event) {
-
-    console.log(this.mcrmessages);
-  }
 
   ngOnInit() {
 
@@ -88,7 +116,18 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   createitems(mcrmessage?: McrMessagesModel) {
     return this.formBuilder.group({
-      mcrmessage: [mcrmessage]
+      mcrmessage: [mcrmessage],
+      changedValue: ''
     });
+  }
+
+  saveMcrMessages() {
+
+    /*
+     * get value change information from form array controls -> changedValue
+     */
+    console.log(this.mcrMessagesFormArray);
+
+
   }
 }

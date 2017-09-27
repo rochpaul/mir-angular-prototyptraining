@@ -10,8 +10,10 @@
         <td>{{item.value.mcrmessage.messagekey}}</td>
         <td>
 
-          <textarea class="form-control" rows="5" [value]="item.value.mcrmessage.messagevalue"
-                    (input)="changeMcrmessageInForm($event)">></textarea>
+          <!--<div class="form-group has-error">-->
+          <textarea class="form-control" formControlName="changedValue"
+                    rows="5" [value]="item.value.mcrmessage.messagevalue"></textarea>
+          <!--</div>-->
         </td>
       </tr>
       </tbody>
