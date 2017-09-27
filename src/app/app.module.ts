@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, Component, APP_INITIALIZER} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {RouterModule} from '@angular/router';
@@ -33,7 +33,22 @@ import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component
 import {SimpleConfirmComponent} from './mir/dialogs/simple-confirm/simple-confirm.component';
 import {MdDialogModule} from "@angular/material";
 import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
+import {ComponentRegistryService} from "./services/component_registry/component-registry.service";
 
+export function registerComponentsFactory(componentRegistry: ComponentRegistryService): Function {
+  return () => componentRegistry.init(
+    [AppComponent,
+      MirComponent,
+      ServererrorComponent,
+      HeaderComponent,
+      NavigationComponent,
+      StartComponent,
+      FooterComponent,
+      RegisterlocalComponent,
+      LoginareaComponent
+    ]
+  );
+}
 
 @NgModule({
   declarations: [
@@ -68,7 +83,6 @@ import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
 
     RouterModule.forRoot([
 
-      
 
       {path: '', redirectTo: 'mir', pathMatch: 'full'},
 
@@ -95,9 +109,24 @@ import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
     })
 
   ],
-  providers: [MarkNavigationElementsService, MCRServerStatusService, AuthenticationService, McrmessagesService],
+  providers: [
+
+    ComponentRegistryService,
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: registerComponentsFactory,
+      deps: [ComponentRegistryService],
+      multi: true
+    },
+
+    MarkNavigationElementsService,
+    MCRServerStatusService,
+    AuthenticationService,
+    McrmessagesService],
   bootstrap: [AppComponent],
   entryComponents: [SimpleConfirmComponent]
 })
 export class AppModule {
+
 }
