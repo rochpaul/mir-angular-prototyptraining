@@ -60,7 +60,6 @@ export class NavigationBuilderComponent implements OnInit {
 
   }
 
-  @ViewChild('treeComponent') treeComponent;
 
   ngAfterViewInit(): void {
 

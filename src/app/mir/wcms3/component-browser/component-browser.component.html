@@ -1,1 +1,5 @@
-<tree [tree]="tree"></tree>
+<tree [tree]="tree" (nodeSelected)="handleSelectedComponent($event)"></tree>
+
+<div>
+  <app-mcrmessages-manager></app-mcrmessages-manager>
+</div>

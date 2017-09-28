@@ -19,9 +19,14 @@ export class ComponentRegistryService {
     }
   }
 
-  getAllComponents() : ComponentRegistryModel[] {
+  getAllComponents(): ComponentRegistryModel[] {
 
     return this.componentsAsModel;
+  }
+
+  getComponentModelById(id: String): ComponentRegistryModel {
+
+    return this.componentsAsModel.find(component => component.id === id);
   }
 
 }
