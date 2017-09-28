@@ -34,18 +34,36 @@ export class MCRMessagesManagerComponent implements OnInit {
          */
         this.mcrmessages = mcrmessages;
 
-
-        // get form array
+        /*
+         * get current form array from form
+         */
         this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
+        /*
+         * check for modifications
+         */
         if (this.mcrMessagesFormArray.length !== 0) {
 
           this.checkModifications();
-        } else {
+        }
+
+
+        /*
+         * there aren't any modifications or dialog have been closed...
+         */
+        if (this.dialogRef == null) {
+
+          /*
+           * push sended messages to form
+           */
+          this.mcrmessagesForm.controls['mcrMessages'] = new FormArray([]);
+          this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+
 
           for (let mcrmessage of mcrmessages) {
 
-            logger.debug("MCRMessagesManager:: " + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
+            logger.debug("MCRMessagesManager: Push Message to FormArray"
+              + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
 
             this.mcrMessagesFormArray.push(this.createitems(mcrmessage));
           }
@@ -67,42 +85,41 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   checkModifications() {
 
-    this.logger.debug("MCRMessagesManager: Check for modifications in mcr messages");
+    this.logger.info("MCRMessagesManager: Check for modifications in mcr messages");
+
+    let isDialogNecessary = false;
 
     for (let mcrMessageFormControl of this.mcrMessagesFormArray.controls) {
 
       if (mcrMessageFormControl.value.changedValue) {
 
         /*
-         * There have been changes -> marc formpart and inform user
+         * There have been changes -> marc fields and inform user
          */
+        this.logger.info("MCRMessagesManager: Changes at "
+          + mcrMessageFormControl.value.mcrmessage.messagevalue + " - "
+          + mcrMessageFormControl.value.changedValue);
 
         console.log(mcrMessageFormControl.value.changedValue);
 
-        this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
-          disableClose: false
-        });
-        this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
-
-        this.dialogRef.afterClosed().subscribe(result => {
-          if(result) {
-            // do confirmation actions
-          }
-          this.dialogRef = null;
-        });
-
+        //isDialogNecessary = true;
       }
     }
 
+    if (isDialogNecessary) {
 
+      this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+        disableClose: false
+      });
+      this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
 
-
-
-    // let missing = this.mcrmessagesForm.value.mcrMessages
-    //   .filter(item =>
-    // this.mcrmessages.filter(item => this.mcrmessages.indexOf(item) < 0));
-    //
-    // console.log(missing);
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // do confirmation actions
+        }
+        this.dialogRef = null;
+      });
+    }
   }
 
 
