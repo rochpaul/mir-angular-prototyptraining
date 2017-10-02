@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Type, Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrmessagesService} from "../../../services/mcrmessages/mcrmessages.service";
@@ -6,6 +6,8 @@ import {FormBuilder, FormGroup, FormArray, FormControl} from '@angular/forms';
 import {McrMessagesModel} from "../../../services/mcrmessages/mcrmessages.model";
 import {MdDialog, MdDialogRef} from "@angular/material";
 import {SimpleConfirmComponent} from "../../dialogs/simple-confirm/simple-confirm.component";
+import {McrMessagesServiceModel} from "../../../services/mcrmessages/mcrmessagesService.model";
+import {Router, NavigationStart, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 
 @Component({
   selector: 'app-mcrmessages-manager',
@@ -17,22 +19,32 @@ export class MCRMessagesManagerComponent implements OnInit {
   mcrmessagesForm: FormGroup;
   mcrMessagesFormArray: FormArray;
 
-  mcrmessages: McrMessagesModel[];
+  mcrMessagesServiceModel: McrMessagesServiceModel;
   messagesMofified: boolean;
   dialogRef: MdDialogRef<SimpleConfirmComponent>;
 
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private router: Router,
+              private formBuilder: FormBuilder,
               public dialog: MdDialog,
               private logger: NGXLogger,
               private mcrmessagesService: McrmessagesService) {
+
+    /*
+     * mcr message manager subscribe three different changes
+     *
+     * -> changes from route
+     * -> changes from language switcher
+     * -> changes from component browser
+     */
+
 
     mcrmessagesService.getMCRMessageModelFromComponent().subscribe(mcrMessageServiceModel => {
 
         /*
          * check subscribed messages against messages in form array
          */
-        this.mcrmessages = mcrMessageServiceModel.mcrmessages;
+        this.mcrMessagesServiceModel = mcrMessageServiceModel;
 
         /*
          * get current form array from form
@@ -60,7 +72,7 @@ export class MCRMessagesManagerComponent implements OnInit {
           this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
 
-          for (let mcrmessage of this.mcrmessages) {
+          for (let mcrmessage of this.mcrMessagesServiceModel.mcrmessages) {
 
             logger.debug("MCRMessagesManager: Push Message to FormArray"
               + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
@@ -77,29 +89,9 @@ export class MCRMessagesManagerComponent implements OnInit {
         /*
          * inform user about possible data loss
          */
-        logger.debug("MCRMessagesManager: Inform user about possible data loss");
-
-        this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
-          disableClose: false
-        });
-        this.dialogRef.componentInstance.confirmMessage = "Sollen die aktuellen Änderungen gespeichert werden?"
-
-        this.dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-
-            this.saveMcrMessages();
-          } else {
-
-            /*
-             * reload current component in browser
-             */
-
-          }
-          this.dialogRef = null;
-        });
+        this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
 
       });
-
   }
 
   checkModifications() {
@@ -166,4 +158,5 @@ export class MCRMessagesManagerComponent implements OnInit {
 
 
   }
+
 }

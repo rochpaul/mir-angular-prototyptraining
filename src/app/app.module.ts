@@ -2,7 +2,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule, Component, APP_INITIALIZER} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {RouterModule} from '@angular/router';
+import {RouterModule, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
 import {TranslateModule, TranslateLoader} from '@ngx-translate/core';
 import {LoggerModule} from 'ngx-logger';
 import {TreeModule} from 'ng2-tree';
@@ -34,6 +34,7 @@ import {SimpleConfirmComponent} from './mir/dialogs/simple-confirm/simple-confir
 import {MdDialogModule} from "@angular/material";
 import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
 import {ComponentRegistryService} from "./services/component_registry/component-registry.service";
+import {UnsavedMcrMessagesGuard} from "./mir/wcms3/component-browser/unsaved-mcr-messages.guard";
 
 export function registerComponentsFactory(componentRegistry: ComponentRegistryService): Function {
   return () => componentRegistry.init(
@@ -93,7 +94,7 @@ export function registerComponentsFactory(componentRegistry: ComponentRegistrySe
           {path: 'loginarea', component: LoginareaComponent},
           {path: 'loginarea/new-author', component: RegisterlocalComponent},
           {path: 'navigationbuilder', component: NavigationBuilderComponent},
-          {path: 'wcms', component: Wcms3mainComponent}
+          {path: 'wcms', component: Wcms3mainComponent, canDeactivate: [UnsavedMcrMessagesGuard]}
         ]
 
       },
@@ -111,6 +112,7 @@ export function registerComponentsFactory(componentRegistry: ComponentRegistrySe
   ],
   providers: [
 
+    UnsavedMcrMessagesGuard,
     ComponentRegistryService,
     {
       // Provider for APP_INITIALIZER
@@ -119,7 +121,6 @@ export function registerComponentsFactory(componentRegistry: ComponentRegistrySe
       deps: [ComponentRegistryService],
       multi: true
     },
-
     MarkNavigationElementsService,
     MCRServerStatusService,
     AuthenticationService,
