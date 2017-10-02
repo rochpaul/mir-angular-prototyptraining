@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ComponentBrowserComponent} from "../component-browser/component-browser.component";
 
 @Component({
   selector: 'app-wcms3main',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Wcms3mainComponent implements OnInit {
 
+  @ViewChild(ComponentBrowserComponent) componentBrowser : ComponentBrowserComponent;
+
   constructor() { }
 
   ngOnInit() {
   }
-
 }

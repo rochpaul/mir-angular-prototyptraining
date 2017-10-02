@@ -155,8 +155,12 @@ export class MCRMessagesManagerComponent implements OnInit {
      * get value change information from form array controls -> changedValue
      */
     console.log(this.mcrMessagesFormArray);
+  }
 
+  canDeactivate() {
 
+    console.log("MCRMessagesManagerComponent will handle router deactivate");
+    return true;
   }
 
 }

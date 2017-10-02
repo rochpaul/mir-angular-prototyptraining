@@ -34,7 +34,7 @@ import {SimpleConfirmComponent} from './mir/dialogs/simple-confirm/simple-confir
 import {MdDialogModule} from "@angular/material";
 import {Wcms3mainComponent} from './mir/wcms3/wcms3main/wcms3main.component';
 import {ComponentRegistryService} from "./services/component_registry/component-registry.service";
-import {UnsavedMcrMessagesGuard} from "./mir/wcms3/component-browser/unsaved-mcr-messages.guard";
+import {UnsavedMcrMessagesGuard} from "./mir/wcms3/mcrmessages-manager/unsaved-mcr-messages.guard";
 
 export function registerComponentsFactory(componentRegistry: ComponentRegistryService): Function {
   return () => componentRegistry.init(
@@ -94,7 +94,12 @@ export function registerComponentsFactory(componentRegistry: ComponentRegistrySe
           {path: 'loginarea', component: LoginareaComponent},
           {path: 'loginarea/new-author', component: RegisterlocalComponent},
           {path: 'navigationbuilder', component: NavigationBuilderComponent},
-          {path: 'wcms', component: Wcms3mainComponent, canDeactivate: [UnsavedMcrMessagesGuard]}
+          {path: 'wcms', component: Wcms3mainComponent, canDeactivate: [UnsavedMcrMessagesGuard],
+
+            // children: [
+            //   {path: 'mcrmessage-edit', component: MCRMessagesManagerComponent, canDeactivate: [UnsavedMcrMessagesGuard]}]
+
+          }
         ]
 
       },

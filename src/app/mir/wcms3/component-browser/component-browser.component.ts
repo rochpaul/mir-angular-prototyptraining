@@ -1,6 +1,6 @@
 import {
   Component, OnInit, ApplicationRef, Injector, ElementRef, ComponentFactoryResolver,
-  ComponentRef, ComponentFactory, Type
+  ComponentRef, ComponentFactory, Type, ViewChild
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {TreeModel} from "ng2-tree";
@@ -8,6 +8,7 @@ import {ComponentRegistryService} from "../../../services/component_registry/com
 import {NGXLogger} from "ngx-logger";
 import {McrmessagesService} from "../../../services/mcrmessages/mcrmessages.service";
 import {FooterComponent} from "../../footer/footer.component";
+import {MCRMessagesManagerComponent} from "../mcrmessages-manager/mcrmessages-manager.component";
 
 export class ComponentBrowserModel {
 
@@ -30,6 +31,8 @@ export class ComponentBrowserModel {
   styleUrls: ['./component-browser.component.css']
 })
 export class ComponentBrowserComponent implements OnInit {
+
+  @ViewChild(MCRMessagesManagerComponent) mcrMessagesManager : MCRMessagesManagerComponent;
 
   tree: TreeModel;
   activeComponentId: string;
