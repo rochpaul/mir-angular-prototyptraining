@@ -102,7 +102,7 @@ export class MCRMessagesManagerComponent implements OnInit {
 
         console.log(mcrMessageFormControl.value.changedValue);
 
-        //isDialogNecessary = true;
+        isDialogNecessary = true;
       }
     }
 
