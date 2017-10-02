@@ -80,7 +80,7 @@ export function registerComponentsFactory(componentRegistry: ComponentRegistrySe
     CKEditorModule,
 
     //LoggerModule.forRoot({serverLoggingUrl: '/api/logs', level: 'DEBUG'}),
-    LoggerModule.forRoot({level: 'DEBUG'}),
+    LoggerModule.forRoot({level: 'INFO'}),
 
     RouterModule.forRoot([
 

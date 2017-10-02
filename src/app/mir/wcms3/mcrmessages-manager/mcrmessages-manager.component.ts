@@ -20,7 +20,6 @@ export class MCRMessagesManagerComponent implements OnInit {
   mcrMessagesFormArray: FormArray;
 
   mcrMessagesServiceModel: McrMessagesServiceModel;
-  messagesMofified: boolean;
   dialogRef: MdDialogRef<SimpleConfirmComponent>;
 
 
@@ -33,7 +32,7 @@ export class MCRMessagesManagerComponent implements OnInit {
     /*
      * mcr message manager subscribe three different changes
      *
-     * -> changes from route
+     * -> changes from route (via guard)
      * -> changes from language switcher
      * -> changes from component browser
      */
@@ -49,21 +48,24 @@ export class MCRMessagesManagerComponent implements OnInit {
         /*
          * get current form array from form
          */
-        this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+        //this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
         /*
          * check for modifications
          */
-        if (this.mcrMessagesFormArray.length !== 0) {
+        //if (this.mcrMessagesFormArray.length !== 0) {
 
-          this.checkModifications();
-        }
-
+        //this.logger.info("MCRMessagesManagerComponent:  " + isModificated);
+        //}
+        var isModificated = this.isModificated();
 
         /*
-         * there aren't any modifications or dialog have been closed...
+         * There are no modifications - Update values
          */
-        if (this.dialogRef == null) {
+
+        if (!isModificated) {
+
+          this.logger.info("MCRMessagesManagerComponent: getMCRMessageModelFromComponent() - Update values");
 
           /*
            * push sended messages to form
@@ -74,11 +76,15 @@ export class MCRMessagesManagerComponent implements OnInit {
 
           for (let mcrmessage of this.mcrMessagesServiceModel.mcrmessages) {
 
-            logger.debug("MCRMessagesManager: Push Message to FormArray"
+            logger.debug("MCRMessagesManagerComponent: Push Message to FormArray"
               + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
 
             this.mcrMessagesFormArray.push(this.createitems(mcrmessage));
           }
+        } else {
+
+          this.logger.info("MCRMessagesManagerComponent: getMCRMessageModelFromComponent() - Data loss warning");
+
         }
       }
     )
@@ -94,44 +100,54 @@ export class MCRMessagesManagerComponent implements OnInit {
       });
   }
 
-  checkModifications() {
+  isModificated(): boolean {
 
-    this.logger.info("MCRMessagesManager: Check for modifications in mcr messages");
+    this.logger.info("MCRMessagesManagerComponent: isModificated() - Check for modifications in mcr messages");
 
-    let isDialogNecessary = false;
+    let isModificated = false;
 
-    for (let mcrMessageFormControl of this.mcrMessagesFormArray.controls) {
+    if (this.mcrMessagesFormArray && this.mcrMessagesFormArray.length !== 0) {
 
-      if (mcrMessageFormControl.value.changedValue) {
+      for (let mcrMessageFormControl of this.mcrMessagesFormArray.controls) {
 
-        /*
-         * There have been changes -> marc fields and inform user
-         */
-        this.logger.info("MCRMessagesManager: Changes at "
-          + mcrMessageFormControl.value.mcrmessage.messagevalue + " - "
-          + mcrMessageFormControl.value.changedValue);
+        if (mcrMessageFormControl.value.changedValue) {
 
-        console.log(mcrMessageFormControl.value.changedValue);
+          /*
+           * There have been changes -> marc fields and inform user
+           */
+          this.logger.info("MCRMessagesManagerComponent: isModificated() - Changes at "
+            + mcrMessageFormControl.value.mcrmessage.messagevalue + " - "
+            + mcrMessageFormControl.value.changedValue);
 
-        isDialogNecessary = true;
+          console.log(mcrMessageFormControl.value.changedValue);
+
+          isModificated = true;
+        }
       }
     }
-
-    if (isDialogNecessary) {
-
-      this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
-        disableClose: false
-      });
-      this.dialogRef.componentInstance.confirmMessage = "Sollen die aktuellen Änderungen gespeichert werden ?"
-
-      this.dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          // do confirmation actions
-        }
-        this.dialogRef = null;
-      });
-    }
+    return isModificated;
   }
+
+  // checkModifications() {
+  //
+  //
+  //   }
+  //
+  //   if (isDialogNecessary) {
+  //
+  //     this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+  //       disableClose: false
+  //     });
+  //     this.dialogRef.componentInstance.confirmMessage = "Sollen die aktuellen Änderungen gespeichert werden ?"
+  //
+  //     this.dialogRef.afterClosed().subscribe(result => {
+  //       if (result) {
+  //         // do confirmation actions
+  //       }
+  //       this.dialogRef = null;
+  //     });
+  //   }
+  // }
 
 
   ngOnInit() {
@@ -159,8 +175,12 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   canDeactivate() {
 
-    console.log("MCRMessagesManagerComponent will handle router deactivate");
-    return true;
+    this.logger.info("MCRMessagesManagerComponent: canDeactivate() - Looking for permission to change route");
+
+    var isModificated = this.isModificated();
+    this.logger.info("MCRMessagesManagerComponent: canDeactivate() - " + isModificated);
+
+    return isModificated;
   }
 
 }

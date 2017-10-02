@@ -36,14 +36,16 @@ export class HeaderComponent implements OnInit {
      */
     this.settedLanguage = language;
 
-    /*
-     * inform other components
-     */
-    this.mcrmessagesService.sendMCRLanguageChange(language);
-
     this.logger.info(this.mcrlanguages);
 
-    this.translate.use(language);
+    this.translate.use(language).subscribe(response => {
+
+      /*
+       * inform other components
+       */
+      this.mcrmessagesService.sendMCRLanguageChange(language);
+
+    });
   }
 
   ngOnInit() {

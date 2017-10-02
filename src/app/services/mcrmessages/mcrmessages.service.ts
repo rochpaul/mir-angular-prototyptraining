@@ -29,6 +29,10 @@ export class McrmessagesService {
    */
   sendServiceModelFromComponent(component: Type<any>) {
 
+    let mcrmessageValues: string[] = new Array();
+    let mcrmessages: McrMessagesModel[] = new Array();
+    let mcrmessageServiceModel: McrMessagesServiceModel = null;
+
     let componentDecorators = getAnnotation(component);
     let componentTemplate = componentDecorators['template'];
 
@@ -39,11 +43,6 @@ export class McrmessagesService {
 
     const suffixStart = '.';
     const suffixEnd = '|';
-
-    let mcrmessageValues: string[] = new Array();
-    let mcrmessages: McrMessagesModel[] = new Array();
-    let mcrmessageServiceModel: McrMessagesServiceModel;
-
 
     /*
      * resolve key / values with trimmed message part
