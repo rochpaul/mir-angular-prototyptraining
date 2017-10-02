@@ -19,6 +19,7 @@ export class MCRMessagesManagerComponent implements OnInit {
   mcrmessagesForm: FormGroup;
   mcrMessagesFormArray: FormArray;
 
+  canDeactivateValue: boolean = false;
   mcrMessagesServiceModel: McrMessagesServiceModel;
   dialogRef: MdDialogRef<SimpleConfirmComponent>;
 
@@ -43,6 +44,14 @@ export class MCRMessagesManagerComponent implements OnInit {
         /*
          * check subscribed messages against messages in form array
          */
+        let settedLanguage;
+
+        if (this.mcrMessagesServiceModel) {
+
+          settedLanguage = this.mcrMessagesServiceModel.language
+        }
+
+
         this.mcrMessagesServiceModel = mcrMessageServiceModel;
 
         /*
@@ -53,17 +62,12 @@ export class MCRMessagesManagerComponent implements OnInit {
         /*
          * check for modifications
          */
-        //if (this.mcrMessagesFormArray.length !== 0) {
-
-        //this.logger.info("MCRMessagesManagerComponent:  " + isModificated);
-        //}
         var isModificated = this.isModificated();
 
         /*
-         * There are no modifications - Update values
+         * There are no modifications or language have been switched -> Update values
          */
-
-        if (!isModificated) {
+        if (!isModificated || settedLanguage !== this.mcrMessagesServiceModel.language) {
 
           this.logger.info("MCRMessagesManagerComponent: getMCRMessageModelFromComponent() - Update values");
 
@@ -95,8 +99,30 @@ export class MCRMessagesManagerComponent implements OnInit {
         /*
          * inform user about possible data loss
          */
-        this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+        var isModificated = this.isModificated();
 
+        if (isModificated) {
+
+          this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+            disableClose: false
+          });
+          this.dialogRef.componentInstance.confirmMessage = "Beim wechseln der Sprache " +
+            "gehen die aktuellen Änderungen verloren. Sollen diese zuvor gespeichert werden?";
+
+          this.dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+
+              /*
+               * save messages
+               */
+            }
+
+            this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+          })
+        } else {
+
+          this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+        }
       });
   }
 
@@ -173,14 +199,45 @@ export class MCRMessagesManagerComponent implements OnInit {
     console.log(this.mcrMessagesFormArray);
   }
 
-  canDeactivate() {
+  canDeactivate(nextState?: RouterStateSnapshot) {
 
     this.logger.info("MCRMessagesManagerComponent: canDeactivate() - Looking for permission to change route");
 
     var isModificated = this.isModificated();
     this.logger.info("MCRMessagesManagerComponent: canDeactivate() - " + isModificated);
 
-    return isModificated;
+    /*
+     * if there are modifications disable routing and change canDeactivateValue to true after Dialog click.
+     * This allows routing from guard!
+     */
+    if (isModificated) {
+
+      this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+        disableClose: false
+      });
+      this.dialogRef.componentInstance.confirmMessage = "Beim verlassen " +
+        "des Message Editors gehen die aktuellen Änderungen verloren. Sollen diese gespeichert werden ?";
+
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+
+          /*
+           * save messages
+           */
+        }
+
+        /*
+         * continue navigation
+         */
+        this.canDeactivateValue = true;
+        this.router.navigateByUrl(nextState.url);
+
+        this.dialogRef = null;
+      });
+
+      return false;
+    }
+    return true;
   }
 
 }
