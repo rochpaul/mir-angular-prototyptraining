@@ -28,7 +28,7 @@ import {NavigationBuilderComponent} from './mir/navigation-builder/navigation-bu
 import {MarkNavigationElementsService} from "./services/navigation/mark-navigation-elements.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {McrmessagesService} from "./services/mcrmessages/mcrmessages.service";
-import {MCRMessagesManagerComponent} from './mir/navigation-builder/mcrmessages-manager/mcrmessages-manager.component';
+import {MCRMessagesManagerComponent} from './mir/wcms3/mcrmessages-manager/mcrmessages-manager.component';
 import {ComponentBrowserComponent} from './mir/wcms3/component-browser/component-browser.component';
 import {SimpleConfirmComponent} from './mir/dialogs/simple-confirm/simple-confirm.component';
 import {MdDialogModule} from "@angular/material";

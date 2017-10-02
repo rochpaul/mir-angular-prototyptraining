@@ -1,15 +1,13 @@
+/*
+ * represents value key connection for mcr messages
+ */
 export class McrMessagesModel {
 
   messagekey: string;
   messagevalue: string;
-  language: string;
-  injectedInComponent: string;
 
-  constructor(messagekey, messagevalue, language, injectedInComponent: string = '') {
+  constructor(messagekey, messagevalue) {
     this.messagekey = messagekey;
     this.messagevalue = messagevalue;
-    this.language = language;
-
-    this.injectedInComponent = injectedInComponent;
   }
 }

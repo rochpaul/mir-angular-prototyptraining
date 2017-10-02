@@ -79,7 +79,7 @@ export class ComponentBrowserComponent implements OnInit {
       /*
        * get all Messages associate with active component
        */
-      this.mcrmessagesService.sendMCRMessagesFromComponent(
+      this.mcrmessagesService.sendServiceModelFromComponent(
         <Type<any>> this.componentRegistry.getComponentModelById(this.activeComponentId).component
       );
 

@@ -7,11 +7,13 @@ import {McrMessagesModel} from "./mcrmessages.model";
 import {HttpClient} from "@angular/common/http";
 import {appConfig} from "../../app.config";
 import {IMCRLanguage} from "./mcrlanguage.model";
+import {McrMessagesServiceModel} from "./mcrmessagesService.model";
 
 @Injectable()
 export class McrmessagesService {
 
-  private mcrmessagesSubject = new Subject<McrMessagesModel[]>();
+  private mcrMessageServiceSubject = new Subject<McrMessagesServiceModel>();
+
   private mcrLanguageSubject = new Subject<String>();
 
   constructor(private translateService: TranslateService,
@@ -19,7 +21,13 @@ export class McrmessagesService {
               private http: HttpClient) {
   }
 
-  sendMCRMessagesFromComponent(component: Type<any>) {
+  /**
+   *
+   * dissolve all required Message information for the given component
+   *
+   * @param component for dissolve Message Information as McrMessageServiceModel
+   */
+  sendServiceModelFromComponent(component: Type<any>) {
 
     let componentDecorators = getAnnotation(component);
     let componentTemplate = componentDecorators['template'];
@@ -34,7 +42,12 @@ export class McrmessagesService {
 
     let mcrmessageValues: string[] = new Array();
     let mcrmessages: McrMessagesModel[] = new Array();
+    let mcrmessageServiceModel: McrMessagesServiceModel;
 
+
+    /*
+     * resolve key / values with trimmed message part
+     */
     for (let templatePart of splittedTemplate) {
 
       let trimmedPart = templatePart.trim();
@@ -59,32 +72,44 @@ export class McrmessagesService {
           this.translateService.get('messages.' + trimmedPart).subscribe(
             mcrMessageValue => {
 
-              if (this.translateService.currentLang) {
-
-                mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue,
-                  this.translateService.currentLang));
-              } else {
-                mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue,
-                  this.translateService.getDefaultLang()));
-              }
+              mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
             });
         }
       }
     }
 
-    //"FooterComponent: request for message.properties in language " + translate.currentLang + );
+    /*
+     * complete mcr message information with adding current language information and associated component
+     */
+    if (this.translateService.currentLang) {
 
-    this.mcrmessagesSubject.next(mcrmessages);
+      mcrmessageServiceModel = new McrMessagesServiceModel(mcrmessages,
+        this.translateService.currentLang, component);
+    } else {
+      mcrmessageServiceModel = new McrMessagesServiceModel(mcrmessages,
+        this.translateService.getDefaultLang(), component);
+    }
+
+    /*
+     * let's send it
+     */
+    this.mcrMessageServiceSubject.next(mcrmessageServiceModel);
   }
 
-  clearMCRMessagesSubject() {
-    this.mcrmessagesSubject.next();
+  clearMCRMessageServiceSubject() {
+    this.mcrMessageServiceSubject.next();
   }
 
-  getMCRMessagesFromComponent(): Observable < McrMessagesModel[] > {
-    return this.mcrmessagesSubject.asObservable();
+  /*
+   * subscriber for MCR Message Service Model
+   */
+  getMCRMessageModelFromComponent(): Observable < McrMessagesServiceModel > {
+    return this.mcrMessageServiceSubject.asObservable();
   }
 
+  /*
+   * send some change in mcr language
+   */
   sendMCRLanguageChange(mcrLanguage: string) {
 
     this.mcrLanguageSubject.next(mcrLanguage);
@@ -94,6 +119,9 @@ export class McrmessagesService {
     this.mcrLanguageSubject.next();
   }
 
+  /*
+   * subscriber for MCR language change
+   */
   getMCRLanguageChangeSubject(): Observable < String > {
     return this.mcrLanguageSubject.asObservable();
   }

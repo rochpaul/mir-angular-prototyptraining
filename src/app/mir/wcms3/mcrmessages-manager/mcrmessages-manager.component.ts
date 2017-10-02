@@ -9,8 +9,8 @@ import {SimpleConfirmComponent} from "../../dialogs/simple-confirm/simple-confir
 
 @Component({
   selector: 'app-mcrmessages-manager',
-  templateUrl: './mcrmessages-manager.component.html',
-  styleUrls: ['./mcrmessages-manager.component.css']
+  templateUrl: 'mcrmessages-manager.component.html',
+  styleUrls: ['mcrmessages-manager.component.css']
 })
 export class MCRMessagesManagerComponent implements OnInit {
 
@@ -27,12 +27,12 @@ export class MCRMessagesManagerComponent implements OnInit {
               private logger: NGXLogger,
               private mcrmessagesService: McrmessagesService) {
 
-    mcrmessagesService.getMCRMessagesFromComponent().subscribe(mcrmessages => {
+    mcrmessagesService.getMCRMessageModelFromComponent().subscribe(mcrMessageServiceModel => {
 
         /*
          * check subscribed messages against messages in form array
          */
-        this.mcrmessages = mcrmessages;
+        this.mcrmessages = mcrMessageServiceModel.mcrmessages;
 
         /*
          * get current form array from form
@@ -60,7 +60,7 @@ export class MCRMessagesManagerComponent implements OnInit {
           this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
 
 
-          for (let mcrmessage of mcrmessages) {
+          for (let mcrmessage of this.mcrmessages) {
 
             logger.debug("MCRMessagesManager: Push Message to FormArray"
               + mcrmessage.messagekey + ": " + mcrmessage.messagevalue);
@@ -78,6 +78,25 @@ export class MCRMessagesManagerComponent implements OnInit {
          * inform user about possible data loss
          */
         logger.debug("MCRMessagesManager: Inform user about possible data loss");
+
+        this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+          disableClose: false
+        });
+        this.dialogRef.componentInstance.confirmMessage = "Sollen die aktuellen Änderungen gespeichert werden?"
+
+        this.dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+
+            this.saveMcrMessages();
+          } else {
+
+            /*
+             * reload current component in browser
+             */
+
+          }
+          this.dialogRef = null;
+        });
 
       });
 
@@ -111,7 +130,7 @@ export class MCRMessagesManagerComponent implements OnInit {
       this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
         disableClose: false
       });
-      this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
+      this.dialogRef.componentInstance.confirmMessage = "Sollen die aktuellen Änderungen gespeichert werden ?"
 
       this.dialogRef.afterClosed().subscribe(result => {
         if (result) {

@@ -54,7 +54,7 @@ export class FooterComponent implements OnInit {
 
         logger.info("FooterComponent: Start to receive messages from Component template");
 
-        mcrmessagesService.sendMCRMessagesFromComponent(FooterComponent);
+        mcrmessagesService.sendServiceModelFromComponent(FooterComponent);
       }
       //
       //     @Component({
