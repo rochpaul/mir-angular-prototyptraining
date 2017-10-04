@@ -8,6 +8,7 @@ import {MdDialog, MdDialogRef} from "@angular/material";
 import {SimpleConfirmComponent} from "../../dialogs/simple-confirm/simple-confirm.component";
 import {McrMessagesServiceModel} from "../../../services/mcrmessages/mcrmessagesService.model";
 import {Router, NavigationStart, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
+import {McrMessagesServerModel} from "../../../services/mcrmessages/mcrmessagesServer.model";
 
 @Component({
   selector: 'app-mcrmessages-manager',
@@ -199,7 +200,7 @@ export class MCRMessagesManagerComponent implements OnInit {
 
     console.log(this.mcrMessagesFormArray);
 
-    let messagesToSave: String[] = [];
+    let messagesToSave: Array<string> = [];
 
     this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - Prepare changed messages to save on serverside");
 
@@ -208,12 +209,20 @@ export class MCRMessagesManagerComponent implements OnInit {
 
         if (control.touched) {
 
-          messagesToSave.push(control.value.changedValue);
-          this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - " + control.value.changedValue);
+          messagesToSave.push(control.value.mcrmessage.messagekey + ":=" + control.value.changedValue)
+
+          this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - "
+            + control.value.mcrmessage.messagekey + ": " + control.value.changedValue);
         }
       });
 
-    this.mcrmessagesService.updateMcrMessages(this.mcrMessagesServiceModel);
+    if (messagesToSave.length != 0) {
+
+      let mcrMessageSerialize: McrMessagesServerModel = new McrMessagesServerModel(
+        messagesToSave, this.mcrMessagesServiceModel.language);
+
+      this.mcrmessagesService.updateMcrMessages(mcrMessageSerialize);
+    }
   }
 
   canDeactivate(nextState?: RouterStateSnapshot) {

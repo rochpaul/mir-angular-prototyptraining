@@ -11,7 +11,7 @@ export class McrMessagesServiceModel {
   language: string;
   associatedComponent: Component;
 
-  constructor(mcrmessages, language, associatedComponent) {
+  constructor(mcrmessages, language, associatedComponent?) {
 
     this.mcrmessages = mcrmessages;
     this.language = language;
