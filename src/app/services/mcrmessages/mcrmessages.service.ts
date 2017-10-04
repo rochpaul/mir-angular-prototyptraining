@@ -4,10 +4,11 @@ import {getAnnotation} from "../../../annotation";
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrMessagesModel} from "./mcrmessages.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {appConfig} from "../../app.config";
 import {IMCRLanguage} from "./mcrlanguage.model";
 import {McrMessagesServiceModel} from "./mcrmessagesService.model";
+import {RequestOptions, Headers} from "@angular/http";
 
 @Injectable()
 export class McrmessagesService {
@@ -130,5 +131,29 @@ export class McrmessagesService {
   getAvailableLanguages(): Observable<IMCRLanguage> {
 
     return this.http.get<IMCRLanguage>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json");
+  }
+
+  updateMcrMessages(mcrMessagesServiceModel: McrMessagesServiceModel) {
+
+    let body = JSON.stringify(
+      {
+        "serviceparams": {
+          "language": "DE"
+        },
+        "messages": {
+          "clientapp.navigation.default.footer.getmore": "Mehr erfahren ..",
+          "component.solr.searchresult.next": "Weiter"
+        }
+      }
+    )
+
+
+    this.http
+      .post('http://localhost:9999/rest/messages/post', body, {
+        headers: new HttpHeaders().set("Content-Type", 'application/json'),
+      })
+      // See below - subscribe() is still necessary when using post().
+      .subscribe();
+
   }
 }
