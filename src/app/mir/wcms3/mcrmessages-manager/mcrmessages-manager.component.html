@@ -1,5 +1,5 @@
 <form [formGroup]="mcrmessagesForm" class="userEditor form-horizontal">
-  <div formArrayName="mcrMessages">
+  <div formArrayName="mcrMessages" *ngIf="mcrmessagesForm.controls.mcrMessages.controls.length !== 0">
     <table class="simple-table">
       <tr>
         <th>MyCore Message Key</th>
@@ -17,8 +17,9 @@
         </td>
       </tr>
       </tbody>
+      <button (click)='saveMcrMessages()'>Speichern</button>
     </table>
   </div>
 </form>
 <br><br>
-<button (click)='saveMcrMessages()'>Speichern</button>
+
