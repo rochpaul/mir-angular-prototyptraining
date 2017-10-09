@@ -16,6 +16,22 @@
 
 .has-error .form-control {
   border-color: #a94442;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+
+.mcrmessages_container {
+
+  height: 150px;
+}
+
+.mcrmessages_options {
+
+  margin-top: 74px;
+  margin-bottom: 70px;
+}
+
+.mcrmessages_options > .form-check > label.form-check-label {
+
+  margin-top: 11px;
 }

@@ -1,19 +1,32 @@
 <form [formGroup]="mcrmessagesForm" class="userEditor form-horizontal">
   <div formArrayName="mcrMessages" *ngIf="mcrmessagesForm.controls.mcrMessages.controls.length !== 0">
+
+    <div class="mcrmessages_options">
+      <span class="badge badge-pill badge-default">MCR Messages Optionen</span>
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" value="">
+          Fehlende Übersetzung markieren (Standardsprache: Deutsch)
+        </label>
+      </div>
+    </div>
+
+
     <table class="simple-table">
       <tr>
         <th>MyCore Message Key</th>
         <th>MyCore Message Value</th>
       </tr>
       <tbody>
-      <tr [formGroupName]="i" *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">
+      <tr class="mcrmessages_container" [formGroupName]="i"
+          *ngFor="let item of mcrmessagesForm.controls.mcrMessages.controls; let i = index">
         <td>{{item.value.mcrmessage.messagekey}}</td>
         <td>
 
-          <!--<div class="form-group has-error">-->
+          <div class="has-error has-feedback">
           <textarea class="form-control" formControlName="changedValue"
                     rows="5" [value]="item.value.mcrmessage.messagevalue"></textarea>
-          <!--</div>-->
+          </div>
         </td>
       </tr>
       </tbody>
