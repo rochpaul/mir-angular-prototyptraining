@@ -3,11 +3,12 @@ import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanDeactivate}
 import {Observable} from 'rxjs/Observable';
 import {MCRMessagesManagerComponent} from "./mcrmessages-manager.component";
 import {Wcms3mainComponent} from "../wcms3main/wcms3main.component";
+import {ComponentBrowserComponent} from "../component-browser/component-browser.component";
 
 @Injectable()
-export class UnsavedMcrMessagesGuard implements CanDeactivate<Wcms3mainComponent> {
+export class UnsavedMcrMessagesGuard implements CanDeactivate<ComponentBrowserComponent> {
 
-  canDeactivate(component: Wcms3mainComponent,
+  canDeactivate(component: ComponentBrowserComponent,
                 currentRoute: ActivatedRouteSnapshot,
                 currentState: RouterStateSnapshot,
                 nextState?: RouterStateSnapshot) {
@@ -20,11 +21,11 @@ export class UnsavedMcrMessagesGuard implements CanDeactivate<Wcms3mainComponent
     //console.log(component);
     //console.log(nextState);
 
-    if (!component.componentBrowser.mcrMessagesManager.canDeactivateValue) {
-      return component.componentBrowser.mcrMessagesManager.canDeactivate(nextState);
+    if (!component.mcrMessagesManager.canDeactivateValue) {
+      return component.mcrMessagesManager.canDeactivate(nextState);
     }
 
-    component.componentBrowser.mcrMessagesManager.canDeactivateValue = false;
+    component.mcrMessagesManager.canDeactivateValue = false;
     return true;
   }
 }

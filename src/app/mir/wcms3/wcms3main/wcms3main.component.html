@@ -1,18 +1,24 @@
 <div class="container"><h2>Web Content Management System MIR (WCMS 3)</h2></div>
 <div id="exTab3" class="container">
-  <ul  class="nav nav-pills">
-    <li class="active">
-      <a  href="#1b" data-toggle="tab">MCR Messages Manager</a>
+  <ul class="nav nav-pills">
+    <li>
+      <a data-toggle="tab" routerLinkActive="active"
+         [routerLink]="['mcrmessage-edit']">MCR Messages Manager</a>
     </li>
-    <li><a href="#2b" data-toggle="tab">Navigation Manager</a>
+    <li>
+      <a data-toggle="tab" routerLinkActive="active"
+         [routerLink]="['navigation-edit']">Navigation Manager</a>
     </li>
   </ul>
 
+
+  <!--<div class="tab-content clearfix">-->
+  <!--<router-outlet></router-outlet>-->
+  <!--</div>-->
+  <!--</div>-->
   <div class="tab-content clearfix">
-    <div class="tab-pane active" id="1b">
-
-        <app-component-browser></app-component-browser>
-
+    <div class="tab-pane active">
+      <router-outlet></router-outlet>
     </div>
   </div>
 </div>
