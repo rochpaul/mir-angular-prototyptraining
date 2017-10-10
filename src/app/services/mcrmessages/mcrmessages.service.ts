@@ -6,10 +6,10 @@ import {NGXLogger} from "ngx-logger";
 import {McrMessagesModel} from "./mcrmessages.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {appConfig} from "../../app.config";
-import {IMCRLanguageParams} from "./mcrlanguage.model";
 import {McrMessagesServiceModel} from "./mcrmessagesService.model";
 import {RequestOptions, Headers} from "@angular/http";
 import {McrMessagesServerModel} from "./mcrmessagesServer.model";
+import {IMCRLanguageParams} from "./mcrlanguage.params.model";
 
 @Injectable()
 export class McrmessagesService {

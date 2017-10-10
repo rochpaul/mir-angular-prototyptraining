@@ -7,8 +7,11 @@ import {Component} from "@angular/core";
  */
 export class McrMessagesServiceModel {
 
-  mcrmessages: McrMessagesModel[]
+  mcrmessages: McrMessagesModel[];
+  mcrmessagesMaintain: McrMessagesModel[];
+
   language: string;
+  languageMaintain: string;
   associatedComponent: Component;
 
   constructor(mcrmessages, language, associatedComponent?) {

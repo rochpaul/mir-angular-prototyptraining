@@ -97,8 +97,6 @@ export class MCRMessagesManagerComponent implements OnInit {
     mcrmessagesService.getMCRLanguageParamsSubject().subscribe(
       mcrLanguageParam => {
 
-        //if (mcrLanguageParam)
-
         /*
          * inform user about possible data loss
          */
