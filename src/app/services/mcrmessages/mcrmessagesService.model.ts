@@ -13,7 +13,7 @@ export class McrMessagesServiceModel {
   mcrMaintainMessages: McrMessagesModel[];
   associatedComponent: Component;
 
-  constructor(language, mcrMaintainLanguage, mcrMaintainMessages, mcrmessages, associatedComponent?) {
+  constructor(language, mcrMaintainLanguage, mcrmessages, mcrMaintainMessages, associatedComponent?) {
 
 
     this.language = language;

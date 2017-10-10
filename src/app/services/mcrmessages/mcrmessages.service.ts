@@ -19,7 +19,7 @@ export class McrmessagesService {
 
   mcrlanguageParams: IMCRLanguageParams;
 
-  allDefaultMessages: McrMessagesModel[];
+  //allDefaultMessages: McrMessagesModel[];
 
 
   constructor(private translateService: TranslateService,
@@ -37,6 +37,11 @@ export class McrmessagesService {
 
     let mcrmessageValues: string[] = new Array();
     let mcrmessages: McrMessagesModel[] = new Array();
+
+
+
+    let mcrmessagesDefault: McrMessagesModel[] = new Array();
+
     let mcrmessageServiceModel: McrMessagesServiceModel = null;
 
     let componentDecorators = getAnnotation(component);
@@ -74,12 +79,28 @@ export class McrmessagesService {
         if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
           mcrmessageValues.push(trimmedPart);
 
+          /*
+           * get mcr message key values in selected language
+           */
           this.translateService.get('messages.' + trimmedPart).subscribe(
             mcrMessageValue => {
 
               mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
             });
 
+          // /*
+          //  * switch language to get mcr message in default language
+          //  */
+          // this.translateService.use(this.mcrlanguageParams.defaultLang).subscribe(response => {
+          //
+          //   this.translateService.get('messages.' + trimmedPart).subscribe(
+          //     mcrMessageValue => {
+          //
+          //       mcrmessagesDefault.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+          //     });
+          // });
+          //
+          // this.translateService.use(this.mcrlanguageParams.currentLang);
         }
       }
     }
@@ -93,7 +114,7 @@ export class McrmessagesService {
         this.mcrlanguageParams.currentLang,
         this.mcrlanguageParams.defaultLang,
         mcrmessages,
-        mcrmessages,
+        mcrmessagesDefault,
         component);
 
     } else {
@@ -174,16 +195,16 @@ export class McrmessagesService {
           /*
            * handling default messages
            */
-          this.translateService.getTranslation(this.mcrlanguageParams.defaultLang).subscribe(
-            mcrMessages => {
-
-              this.logger.info('McrmessagesService.getAvailableLanguages(): Set all default messages(for maintaining) into Service');
-
-              //var ausprobieren = mcrMessages.getJSON()['messages'];
-
-              var messagesString = JSON.stringify(mcrMessages);
-            }
-          )
+          // this.translateService.getTranslation(this.mcrlanguageParams.defaultLang).subscribe(
+          //   mcrMessages => {
+          //
+          //     this.logger.info('McrmessagesService.getAvailableLanguages(): Set all default messages(for maintaining) into Service');
+          //
+          //     //var ausprobieren = mcrMessages.getJSON()['messages'];
+          //
+          //     var messagesString = JSON.stringify(mcrMessages);
+          //   }
+          // )
 
           /*
            * handling standard language
