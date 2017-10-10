@@ -97,34 +97,38 @@ export class MCRMessagesManagerComponent implements OnInit {
     mcrmessagesService.getMCRLanguageParamsSubject().subscribe(
       mcrLanguageParam => {
 
-        /*
-         * inform user about possible data loss
-         */
-        var isModificated = this.isModificated();
+        if (this.mcrMessagesServiceModel && this.mcrMessagesServiceModel.associatedComponent) {
 
-        if (isModificated) {
+          /*
+           * inform user about possible data loss
+           */
+          var isModificated = this.isModificated();
 
-          this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
-            disableClose: false
-          });
-          this.dialogRef.componentInstance.confirmMessage = "Beim wechseln der Sprache " +
-            "gehen die aktuellen Änderungen verloren. Sollen diese zuvor gespeichert werden?";
+          if (isModificated) {
 
-          this.dialogRef.afterClosed().subscribe(result => {
-            if (result) {
+            this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
+              disableClose: false
+            });
+            this.dialogRef.componentInstance.confirmMessage = "Beim wechseln der Sprache " +
+              "gehen die aktuellen Änderungen verloren. Sollen diese zuvor gespeichert werden?";
 
-              /*
-               * save messages
-               */
-            }
+            this.dialogRef.afterClosed().subscribe(result => {
+              if (result) {
+
+                /*
+                 * save messages
+                 */
+              }
+
+              this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+            })
+          } else {
 
             this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
-          })
-        } else {
-
-          this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+          }
         }
       });
+
   }
 
   isModificated(): boolean {

@@ -8,20 +8,20 @@ import {Component} from "@angular/core";
 export class McrMessagesServiceModel {
 
   mcrmessages: McrMessagesModel[];
-  mcrmessagesMaintain: McrMessagesModel[];
-
   language: string;
-
   mcrMaintainLanguage: string;
-
+  mcrMaintainMessages: McrMessagesModel[];
   associatedComponent: Component;
 
-  constructor(mcrmessages, language, mcrMaintainLanguage, associatedComponent?) {
+  constructor(language, mcrMaintainLanguage, mcrMaintainMessages, mcrmessages, associatedComponent?) {
+
+
+    this.language = language;
+    this.mcrMaintainLanguage = mcrMaintainLanguage;
 
     this.mcrmessages = mcrmessages;
-    this.language = language;
+    this.mcrMaintainMessages = mcrMaintainMessages;
     this.associatedComponent = associatedComponent;
-    this.mcrMaintainLanguage = mcrMaintainLanguage;
   }
 
 }
