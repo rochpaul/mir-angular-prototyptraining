@@ -4,10 +4,9 @@ import {getAnnotation} from "../../../annotation";
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
 import {McrMessagesModel} from "./mcrmessages.model";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpErrorResponse} from "@angular/common/http";
 import {appConfig} from "../../app.config";
 import {McrMessagesServiceModel} from "./mcrmessagesService.model";
-import {RequestOptions, Headers} from "@angular/http";
 import {McrMessagesServerModel} from "./mcrmessagesServer.model";
 import {IMCRLanguageParams} from "./mcrlanguage.params.model";
 
@@ -17,6 +16,8 @@ export class McrmessagesService {
   private mcrMessageServiceSubject = new Subject<McrMessagesServiceModel>();
 
   private mcrLanguageParamsSubject = new Subject<IMCRLanguageParams>();
+
+  mcrlanguageParams: IMCRLanguageParams;
 
   constructor(private translateService: TranslateService,
               private logger: NGXLogger,
@@ -82,13 +83,14 @@ export class McrmessagesService {
     /*
      * complete mcr message information with adding current language information and associated component
      */
-    if (this.translateService.currentLang) {
+    if (this.mcrlanguageParams) {
 
       mcrmessageServiceModel = new McrMessagesServiceModel(mcrmessages,
-        this.translateService.currentLang, component);
+        this.mcrlanguageParams.currentLang, this.mcrlanguageParams.defaultLang, component);
     } else {
-      mcrmessageServiceModel = new McrMessagesServiceModel(mcrmessages,
-        this.translateService.getDefaultLang(), component);
+
+      //mcrmessageServiceModel = new McrMessagesServiceModel(mcrmessages,
+      //  this.translateService.getDefaultLang(), component);
     }
 
     /*
@@ -146,7 +148,59 @@ export class McrmessagesService {
 
   getAvailableLanguages(): Observable<IMCRLanguageParams> {
 
-    return this.http.get<IMCRLanguageParams>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json");
+
+    return Observable.create(observer => {
+
+      this.http.get<IMCRLanguageParams>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json").subscribe(
+        mcrlanguageParams => {
+
+
+          this.logger.info('McrmessagesService.getAvailableLanguages(): ' + mcrlanguageParams.availablelang);
+          this.mcrlanguageParams = mcrlanguageParams;
+
+          /*
+           * handling standard language
+           */
+          let browserlang = this.translateService.getBrowserLang();
+
+          this.logger.info('McrmessagesService.getAvailableLanguages(): Set MCR Standard language');
+
+          if (mcrlanguageParams.availablelang.indexOf(browserlang) !== -1) {
+
+            this.mcrlanguageParams.currentLang = browserlang;
+
+            this.logger.info('McrmessagesService.getAvailableLanguages(): Default browser language was detected under available languages');
+            this.logger.info('McrmessagesService.getAvailableLanguages(): Set MCR Standard language to: ' + this.mcrlanguageParams.currentLang);
+
+          } else {
+
+            this.mcrlanguageParams.currentLang = this.mcrlanguageParams.availablelang[0];
+
+            this.logger.warn('McrmessagesService.getAvailableLanguages(): Default browser language "' + browserlang + '" is not defined in MCR languages. Set ' +
+              'first available mcr language as standard: ' + this.mcrlanguageParams.currentLang);
+          }
+
+          this.translateService.setDefaultLang(this.mcrlanguageParams.currentLang);
+
+
+          /*
+           * handle mcrlanguageParams on other components
+           */
+          observer.next(<IMCRLanguageParams> mcrlanguageParams);
+          observer.complete();
+        },
+        (err: HttpErrorResponse) => {
+
+          if (err.error instanceof Error) {
+
+            console.log("MCRLanguageService.getAvailableLanguages(): Client-side Error occured");
+          } else {
+            console.log("MCRLanguageService.getAvailableLanguages(): Server-side Error occured");
+          }
+
+          return Observable.of(null);
+        });
+    });
   }
 
   updateMcrMessages(mcrMessagesServiceModel: McrMessagesServerModel) {
