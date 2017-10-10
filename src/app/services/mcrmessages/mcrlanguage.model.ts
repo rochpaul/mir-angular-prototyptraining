@@ -1,4 +1,6 @@
-export interface IMCRLanguage {
+export interface IMCRLanguageParams {
 
   availablelang: string[];
+  currentLang: string;
+  maintainLang: string;
 }

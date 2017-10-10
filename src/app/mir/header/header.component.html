@@ -38,7 +38,7 @@
           <!--Spracheinstellungen <span class="caret"></span>-->
           <!--</button>-->
           <ul *dropdownMenu class="dropdown-menu" role="menu">
-            <li *ngFor="let mcrlanguage of mcrlanguages | elementremove: settedLanguage" role="menuitem">
+            <li *ngFor="let mcrlanguage of mcrlanguageParams.availablelang | elementremove: settedLanguage" role="menuitem">
               <a class="dropdown-item" (click)="switchLanguage(mcrlanguage)">{{ mcrlanguage }}</a>
             </li>
           </ul>

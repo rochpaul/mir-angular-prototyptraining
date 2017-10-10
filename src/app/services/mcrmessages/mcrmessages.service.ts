@@ -6,7 +6,7 @@ import {NGXLogger} from "ngx-logger";
 import {McrMessagesModel} from "./mcrmessages.model";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {appConfig} from "../../app.config";
-import {IMCRLanguage} from "./mcrlanguage.model";
+import {IMCRLanguageParams} from "./mcrlanguage.model";
 import {McrMessagesServiceModel} from "./mcrmessagesService.model";
 import {RequestOptions, Headers} from "@angular/http";
 import {McrMessagesServerModel} from "./mcrmessagesServer.model";
@@ -16,7 +16,7 @@ export class McrmessagesService {
 
   private mcrMessageServiceSubject = new Subject<McrMessagesServiceModel>();
 
-  private mcrLanguageSubject = new Subject<String>();
+  private mcrLanguageParamsSubject = new Subject<IMCRLanguageParams>();
 
   constructor(private translateService: TranslateService,
               private logger: NGXLogger,
@@ -111,30 +111,45 @@ export class McrmessagesService {
   /*
    * send some change in mcr language
    */
-  sendMCRLanguageChange(mcrLanguage: string) {
+  sendMCRLanguageParamsSubject(mcrLanguageParams: IMCRLanguageParams) {
 
-    this.mcrLanguageSubject.next(mcrLanguage);
+    this.mcrLanguageParamsSubject.next(mcrLanguageParams);
   }
 
-  clearMCRLanguageChangeSubject() {
-    this.mcrLanguageSubject.next();
+  clearMCRLanguageParamsSubject() {
+    this.mcrLanguageParamsSubject.next();
   }
 
   /*
    * subscriber for MCR language change
    */
-  getMCRLanguageChangeSubject(): Observable < String > {
-    return this.mcrLanguageSubject.asObservable();
+  getMCRLanguageParamsSubject(): Observable <IMCRLanguageParams> {
+    return this.mcrLanguageParamsSubject.asObservable();
+  }
+
+  switchLanguage(mcrLanguageParams: IMCRLanguageParams) {
+
+    this.logger.info('McrmessagesServic: switchLanguage() - Switch language to ' + mcrLanguageParams.currentLang);
+
+    this.translateService.use(mcrLanguageParams.currentLang).subscribe(response => {
+
+      /*
+       * inform other components
+       */
+      this.sendMCRLanguageParamsSubject(mcrLanguageParams);
+
+    });
+
   }
 
 // Rest Services
 
-  getAvailableLanguages(): Observable<IMCRLanguage> {
+  getAvailableLanguages(): Observable<IMCRLanguageParams> {
 
-    return this.http.get<IMCRLanguage>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json");
+    return this.http.get<IMCRLanguageParams>(appConfig.serverUrl + "/mir/api/v1/messages/availablelang?format=json");
   }
 
-  updateMcrMessages(mcrMessagesServiceModel : McrMessagesServerModel) {
+  updateMcrMessages(mcrMessagesServiceModel: McrMessagesServerModel) {
 
     this.logger.info("McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) - Start to update mcr messages")
 

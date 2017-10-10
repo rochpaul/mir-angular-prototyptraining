@@ -4,6 +4,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {NGXLogger} from 'ngx-logger';
 import {Router} from "@angular/router";
 import {McrmessagesService} from "../../services/mcrmessages/mcrmessages.service";
+import {IMCRLanguageParams} from "../../services/mcrmessages/mcrlanguage.model";
 
 @Component({
   selector: '[mir-header]',
@@ -12,12 +13,11 @@ import {McrmessagesService} from "../../services/mcrmessages/mcrmessages.service
 })
 export class HeaderComponent implements OnInit {
 
-  mcrlanguages: string[];
+  mcrlanguageParams: IMCRLanguageParams;
   settedLanguage: string;
 
   constructor(private translate: TranslateService,
               private mcrmessagesService: McrmessagesService,
-              private router: Router,
               private logger: NGXLogger) {
 
   }
@@ -29,23 +29,16 @@ export class HeaderComponent implements OnInit {
     /*
      * add filtered language to visible languages again!
      */
-    this.mcrlanguages.push(this.settedLanguage);
+    this.mcrlanguageParams.availablelang.push(this.settedLanguage);
 
     /*
      * modify setted language
      */
     this.settedLanguage = language;
 
-    this.logger.info(this.mcrlanguages);
+    this.mcrlanguageParams.currentLang = this.settedLanguage;
 
-    this.translate.use(language).subscribe(response => {
-
-      /*
-       * inform other components
-       */
-      this.mcrmessagesService.sendMCRLanguageChange(language);
-
-    });
+    this.mcrmessagesService.switchLanguage(this.mcrlanguageParams);
   }
 
   ngOnInit() {
@@ -56,11 +49,11 @@ export class HeaderComponent implements OnInit {
   getAvailableLanguages() {
 
     this.mcrmessagesService.getAvailableLanguages().subscribe(
-      mcrlanguage => {
+      mcrlanguageParams => {
 
-        this.logger.info('HeaderComponent.getAvailableLanguages(): ' + mcrlanguage.availablelang);
+        this.logger.info('HeaderComponent.getAvailableLanguages(): ' + mcrlanguageParams.availablelang);
 
-        this.mcrlanguages = mcrlanguage.availablelang;
+        this.mcrlanguageParams = mcrlanguageParams;
 
         /*
          * handling standard language
@@ -69,7 +62,7 @@ export class HeaderComponent implements OnInit {
 
         this.logger.info('HeaderComponent.getAvailableLanguages(): Set MCR Standard language');
 
-        if (mcrlanguage.availablelang.indexOf(browserlang) !== -1) {
+        if (mcrlanguageParams.availablelang.indexOf(browserlang) !== -1) {
 
           this.settedLanguage = browserlang;
 
@@ -78,13 +71,21 @@ export class HeaderComponent implements OnInit {
 
         } else {
 
-          this.settedLanguage = this.mcrlanguages[0];
+          this.settedLanguage = this.mcrlanguageParams.availablelang[0];
 
           this.logger.warn('HeaderComponent.getAvailableLanguages(): Default browser language "' + browserlang + '" is not defined in MCR languages. Set ' +
             'first available mcr language as standard: ' + this.settedLanguage);
         }
 
         this.translate.setDefaultLang(this.settedLanguage);
+
+        /*
+         * Handling mcr maintain language (language with most translation maintenance)
+         */
+        //this.mcrlanguageParams.currentLang = this.settedLanguage;
+
+        //this.mcrmessagesService.sendMCRLanguageParamsSubject(this.mcrlanguageParams);
+
 
       },
       (err: HttpErrorResponse) => {
