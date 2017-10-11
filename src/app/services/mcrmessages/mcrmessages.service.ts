@@ -38,9 +38,6 @@ export class McrmessagesService {
     let mcrmessageValues: string[] = new Array();
     let mcrmessages: McrMessagesModel[] = new Array();
 
-
-    let mcrmessagesDefault: McrMessagesModel[] = new Array();
-
     let mcrmessageServiceModel: McrMessagesServiceModel = null;
 
     let componentDecorators = getAnnotation(component);
@@ -100,7 +97,7 @@ export class McrmessagesService {
                   this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - There is no value for "
                     + trimmedPart + " in language " + this.translateService.currentLang);
 
-                  mcrmessages.push(new McrMessagesModel(trimmedPart, trimmedPart));
+                  mcrmessages.push(new McrMessagesModel(trimmedPart, trimmedPart, true, false));
                 } else {
 
                   /*
@@ -114,8 +111,8 @@ export class McrmessagesService {
                       mcrMessageValueDefault => {
 
                         mcrMessageValue === mcrMessageValueDefault ?
-                          mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue, true))
-                          : mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+                          mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue, false, true))
+                          : mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue, false, false));
                       });
                   });
                 }
@@ -134,7 +131,6 @@ export class McrmessagesService {
         this.mcrlanguageParams.currentLang,
         this.mcrlanguageParams.defaultLang,
         mcrmessages,
-        mcrmessagesDefault,
         component);
 
     } else {
