@@ -39,7 +39,6 @@ export class McrmessagesService {
     let mcrmessages: McrMessagesModel[] = new Array();
 
 
-
     let mcrmessagesDefault: McrMessagesModel[] = new Array();
 
     let mcrmessageServiceModel: McrMessagesServiceModel = null;
@@ -56,80 +55,101 @@ export class McrmessagesService {
     const suffixEnd = '|';
 
     /*
-     * resolve key / values with trimmed message part
+     * be sure to get correct translation!
      */
-    for (let templatePart of splittedTemplate) {
+    this.translateService.setDefaultLang(this.mcrlanguageParams.currentLang);
 
-      let trimmedPart = templatePart.trim();
+    this.translateService.use(this.mcrlanguageParams.currentLang).subscribe(response => {
+
+      this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - Use language: "
+        + this.translateService.currentLang);
 
       /*
-       * get only correct messages
+       * resolve key / values with trimmed message part
        */
-      if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
-        trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
+      for (let templatePart of splittedTemplate) {
 
-        trimmedPart = trimmedPart.substring(1, trimmedPart.length);
+        let trimmedPart = templatePart.trim();
 
         /*
-         * remove whitespaces!
+         * get only correct messages
          */
-        trimmedPart = trimmedPart.replace(/ /g, '')
-        trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
+        if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
+          trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
 
-        if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
-          mcrmessageValues.push(trimmedPart);
+          trimmedPart = trimmedPart.substring(1, trimmedPart.length);
 
           /*
-           * get mcr message key values in selected language
+           * remove whitespaces!
            */
-          this.translateService.get('messages.' + trimmedPart).subscribe(
-            mcrMessageValue => {
+          trimmedPart = trimmedPart.replace(/ /g, '')
+          trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
 
-              mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
-            });
+          if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
+            mcrmessageValues.push(trimmedPart);
 
-          // /*
-          //  * switch language to get mcr message in default language
-          //  */
-          // this.translateService.use(this.mcrlanguageParams.defaultLang).subscribe(response => {
-          //
-          //   this.translateService.get('messages.' + trimmedPart).subscribe(
-          //     mcrMessageValue => {
-          //
-          //       mcrmessagesDefault.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
-          //     });
-          // });
-          //
-          // this.translateService.use(this.mcrlanguageParams.currentLang);
+            /*
+             * get mcr message key values in selected language
+             */
+            this.translateService.get('messages.' + trimmedPart).subscribe(
+              mcrMessageValue => {
+
+                if (mcrMessageValue === 'messages.' + trimmedPart) {
+
+                  this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - There is no value for "
+                    + trimmedPart + " in language " + this.translateService.currentLang);
+
+                  mcrmessages.push(new McrMessagesModel(trimmedPart, trimmedPart));
+                } else {
+
+                  mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+                }
+              });
+
+            // /*
+            //  * switch language to get mcr message in default language
+            //  */
+            // this.translateService.use(this.mcrlanguageParams.defaultLang).subscribe(response => {
+            //
+            //   this.translateService.get('messages.' + trimmedPart).subscribe(
+            //     mcrMessageValue => {
+            //
+            //       mcrmessagesDefault.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+            //     });
+            // });
+            //
+            // this.translateService.use(this.mcrlanguageParams.currentLang);
+          }
         }
       }
-    }
-
-    /*
-     * complete message information
-     */
-    if (this.mcrlanguageParams) {
-
-      mcrmessageServiceModel = new McrMessagesServiceModel(
-        this.mcrlanguageParams.currentLang,
-        this.mcrlanguageParams.defaultLang,
-        mcrmessages,
-        mcrmessagesDefault,
-        component);
-
-    } else {
 
       /*
-       * Error case
+       * complete message information
        */
-      this.logger.error("McrmessagesService: sendServiceModelFromComponent(component) - mcrlanguageParams failed");
+      if (this.mcrlanguageParams) {
 
-    }
+        mcrmessageServiceModel = new McrMessagesServiceModel(
+          this.mcrlanguageParams.currentLang,
+          this.mcrlanguageParams.defaultLang,
+          mcrmessages,
+          mcrmessagesDefault,
+          component);
 
-    /*
-     * let's send it
-     */
-    this.mcrMessageServiceSubject.next(mcrmessageServiceModel);
+      } else {
+
+        /*
+         * Error case
+         */
+        this.logger.error("McrmessagesService: sendServiceModelFromComponent(component) - mcrlanguageParams failed");
+
+      }
+
+      /*
+       * let's send it
+       */
+      this.mcrMessageServiceSubject.next(mcrmessageServiceModel);
+
+    });
   }
 
   clearMCRMessageServiceSubject() {
@@ -229,7 +249,6 @@ export class McrmessagesService {
           }
 
           this.translateService.setDefaultLang(this.mcrlanguageParams.currentLang);
-
 
           /*
            * handle mcrlanguageParams on other components
