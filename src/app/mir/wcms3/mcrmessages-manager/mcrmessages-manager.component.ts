@@ -198,35 +198,7 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   saveMcrMessages() {
 
-    /*
-     * get value change information from form array controls -> changedValue
-     */
-
-    console.log(this.mcrMessagesFormArray);
-
-    let messagesToSave: Array<string> = [];
-
-    this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - Prepare changed messages to save on serverside");
-
-    this.mcrMessagesFormArray.controls.filter(
-      control => {
-
-        if (control.touched) {
-
-          messagesToSave.push(control.value.mcrmessage.messagekey + ":=" + control.value.changedValue)
-
-          this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - "
-            + control.value.mcrmessage.messagekey + ": " + control.value.changedValue);
-        }
-      });
-
-    if (messagesToSave.length != 0) {
-
-      let mcrMessageSerialize: McrMessagesServerModel = new McrMessagesServerModel(
-        messagesToSave, this.mcrMessagesServiceModel.language);
-
-      this.mcrmessagesService.updateMcrMessages(mcrMessageSerialize);
-    }
+    console.log(this.mcrMessagesServiceModel);
   }
 
   canDeactivate(nextState?: RouterStateSnapshot) {

@@ -55,38 +55,36 @@ export class McrmessagesService {
     const suffixEnd = '|';
 
     /*
-     * be sure to get correct translation!
+     * resolve key / values with trimmed message part
      */
-    this.translateService.setDefaultLang(this.mcrlanguageParams.currentLang);
+    for (let templatePart of splittedTemplate) {
 
-    this.translateService.use(this.mcrlanguageParams.currentLang).subscribe(response => {
-
-      this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - Use language: "
-        + this.translateService.currentLang);
+      let trimmedPart = templatePart.trim();
 
       /*
-       * resolve key / values with trimmed message part
+       * get only correct messages
        */
-      for (let templatePart of splittedTemplate) {
+      if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
+        trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
 
-        let trimmedPart = templatePart.trim();
+        trimmedPart = trimmedPart.substring(1, trimmedPart.length);
 
         /*
-         * get only correct messages
+         * remove whitespaces!
          */
-        if (trimmedPart.substring(0, suffixStart.length) === suffixStart &&
-          trimmedPart.indexOf(suffixEnd, trimmedPart.length - suffixEnd.length) !== -1) {
+        trimmedPart = trimmedPart.replace(/ /g, '')
+        trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
 
-          trimmedPart = trimmedPart.substring(1, trimmedPart.length);
+        if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
+          mcrmessageValues.push(trimmedPart);
 
           /*
-           * remove whitespaces!
+           * be sure to get correct translation!
            */
-          trimmedPart = trimmedPart.replace(/ /g, '')
-          trimmedPart = trimmedPart.replace("'" + suffixEnd, "");
+          this.translateService.use(this.mcrlanguageParams.currentLang).subscribe(response => {
 
-          if (!(mcrmessageValues.indexOf(trimmedPart) > -1)) {
-            mcrmessageValues.push(trimmedPart);
+            this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - Use language: "
+              + this.translateService.currentLang);
 
             /*
              * get mcr message key values in selected language
@@ -94,6 +92,9 @@ export class McrmessagesService {
             this.translateService.get('messages.' + trimmedPart).subscribe(
               mcrMessageValue => {
 
+                /*
+                 * check if value exists somewhere?
+                 */
                 if (mcrMessageValue === 'messages.' + trimmedPart) {
 
                   this.logger.debug("McrmessagesService: sendServiceModelFromComponent(component) - There is no value for "
@@ -102,54 +103,53 @@ export class McrmessagesService {
                   mcrmessages.push(new McrMessagesModel(trimmedPart, trimmedPart));
                 } else {
 
-                  mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+                  /*
+                   * check if value is the same one in default language
+                   *
+                   * -> this means the translation is missing
+                   */
+                  this.translateService.use(this.mcrlanguageParams.defaultLang).subscribe(responseDefault => {
+
+                    this.translateService.get('messages.' + trimmedPart).subscribe(
+                      mcrMessageValueDefault => {
+
+                        mcrMessageValue === mcrMessageValueDefault ?
+                          mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue, true))
+                          : mcrmessages.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
+                      });
+                  });
                 }
               });
-
-            // /*
-            //  * switch language to get mcr message in default language
-            //  */
-            // this.translateService.use(this.mcrlanguageParams.defaultLang).subscribe(response => {
-            //
-            //   this.translateService.get('messages.' + trimmedPart).subscribe(
-            //     mcrMessageValue => {
-            //
-            //       mcrmessagesDefault.push(new McrMessagesModel(trimmedPart, mcrMessageValue));
-            //     });
-            // });
-            //
-            // this.translateService.use(this.mcrlanguageParams.currentLang);
-          }
+          });
         }
       }
+    }
+
+    /*
+     * complete message information
+     */
+    if (this.mcrlanguageParams) {
+
+      mcrmessageServiceModel = new McrMessagesServiceModel(
+        this.mcrlanguageParams.currentLang,
+        this.mcrlanguageParams.defaultLang,
+        mcrmessages,
+        mcrmessagesDefault,
+        component);
+
+    } else {
 
       /*
-       * complete message information
+       * Error case
        */
-      if (this.mcrlanguageParams) {
+      this.logger.error("McrmessagesService: sendServiceModelFromComponent(component) - mcrlanguageParams failed");
 
-        mcrmessageServiceModel = new McrMessagesServiceModel(
-          this.mcrlanguageParams.currentLang,
-          this.mcrlanguageParams.defaultLang,
-          mcrmessages,
-          mcrmessagesDefault,
-          component);
+    }
 
-      } else {
-
-        /*
-         * Error case
-         */
-        this.logger.error("McrmessagesService: sendServiceModelFromComponent(component) - mcrlanguageParams failed");
-
-      }
-
-      /*
-       * let's send it
-       */
-      this.mcrMessageServiceSubject.next(mcrmessageServiceModel);
-
-    });
+    /*
+     * let's send it
+     */
+    this.mcrMessageServiceSubject.next(mcrmessageServiceModel);
   }
 
   clearMCRMessageServiceSubject() {
@@ -248,7 +248,17 @@ export class McrmessagesService {
               'first available mcr language as standard: ' + this.mcrlanguageParams.currentLang);
           }
 
-          this.translateService.setDefaultLang(this.mcrlanguageParams.currentLang);
+          /*
+           * set standard language
+           */
+          this.translateService.use(this.mcrlanguageParams.currentLang).subscribe(response => {
+
+            /*
+             * set default language to handle missing translations
+             */
+            this.translateService.setDefaultLang(this.mcrlanguageParams.defaultLang);
+          });
+
 
           /*
            * handle mcrlanguageParams on other components
