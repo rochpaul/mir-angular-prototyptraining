@@ -17,6 +17,10 @@ import {McrMessagesServerModel} from "../../../services/mcrmessages/mcrmessagesS
 })
 export class MCRMessagesManagerComponent implements OnInit {
 
+  // messages manager options
+  showMissingTranslations : boolean = false;
+  showDefaultTranslations : boolean = false;
+
   mcrmessagesForm: FormGroup;
   mcrMessagesFormArray: FormArray;
 
@@ -198,7 +202,35 @@ export class MCRMessagesManagerComponent implements OnInit {
 
   saveMcrMessages() {
 
-    console.log(this.mcrMessagesServiceModel);
+    /*
+     * get value change information from form array controls -> changedValue
+     */
+
+    console.log(this.mcrMessagesFormArray);
+
+    let messagesToSave: Array<string> = [];
+
+    this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - Prepare changed messages to save on serverside");
+
+    this.mcrMessagesFormArray.controls.filter(
+      control => {
+
+        if (control.touched) {
+
+          messagesToSave.push(control.value.mcrmessage.messagekey + ":=" + control.value.changedValue)
+
+          this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - "
+            + control.value.mcrmessage.messagekey + ": " + control.value.changedValue);
+        }
+      });
+
+    if (messagesToSave.length != 0) {
+
+      let mcrMessageSerialize: McrMessagesServerModel = new McrMessagesServerModel(
+        messagesToSave, this.mcrMessagesServiceModel.language);
+
+      this.mcrmessagesService.updateMcrMessages(mcrMessageSerialize);
+    }
   }
 
   canDeactivate(nextState?: RouterStateSnapshot) {
@@ -242,4 +274,13 @@ export class MCRMessagesManagerComponent implements OnInit {
     return true;
   }
 
+  changeShowDefaultTranslations($event) {
+
+    this.showDefaultTranslations = !this.showDefaultTranslations;
+  }
+
+  changeShowMissingTranslations($event) {
+
+    this.showMissingTranslations = !this.showMissingTranslations;
+  }
 }

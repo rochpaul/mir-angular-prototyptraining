@@ -122,6 +122,8 @@ export class McrmessagesService {
       }
     }
 
+    this.translateService.use(this.mcrlanguageParams.currentLang);
+
     /*
      * complete message information
      */

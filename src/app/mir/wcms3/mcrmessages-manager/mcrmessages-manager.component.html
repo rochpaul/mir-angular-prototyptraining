@@ -5,8 +5,17 @@
       <span class="badge badge-pill badge-default">MCR Messages Optionen</span>
       <div class="form-check">
         <label class="form-check-label">
-          <input class="form-check-input" type="checkbox" value="">
-          Fehlende Übersetzung markieren ( MCR.Metadata.DefaultLang = {{mcrMessagesServiceModel.mcrMaintainLanguage}} )
+          <input class="form-check-input" type="checkbox" (change)="changeShowMissingTranslations($event)"
+                 [checked]="this.showMissingTranslations">
+          Fehlende Übersetzung markieren
+        </label>
+      </div>
+
+      <div class="form-check">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" (change)="changeShowDefaultTranslations($event)"
+                 [checked]="this.showDefaultTranslations">
+          Standardübersetzung markieren ( MCR.Metadata.DefaultLang = {{mcrMessagesServiceModel.mcrMaintainLanguage}} )
         </label>
       </div>
     </div>
@@ -23,7 +32,9 @@
         <td>{{item.value.mcrmessage.messagekey}}</td>
         <td>
 
-          <div class="has-error has-feedback">
+          <div [ngClass]="{
+          'has-error has-feedback': (this.showDefaultTranslations && item.value.mcrmessage.isOnlyDefaultTranslation)
+          || (this.showMissingTranslations && item.value.mcrmessage.isNoTranslation)}">
           <textarea class="form-control" formControlName="changedValue"
                     rows="5" [value]="item.value.mcrmessage.messagevalue"></textarea>
           </div>
