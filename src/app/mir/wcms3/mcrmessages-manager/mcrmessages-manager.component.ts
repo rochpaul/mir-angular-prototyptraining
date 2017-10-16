@@ -238,6 +238,21 @@ export class MCRMessagesManagerComponent implements OnInit {
 
           this.logger.info('MCRMessagesManagerComponent: saveMcrMessages() ' +
             '- Refresh presentation layer.');
+
+          /*
+           * everything is fine, reset everything
+           */
+          this.mcrMessagesServiceModel = null;
+
+          this.mcrmessagesForm.controls['mcrMessages'] = new FormArray([]);
+          this.mcrMessagesFormArray = <FormArray>this.mcrmessagesForm.controls['mcrMessages'];
+
+          /*
+           * Problem is on setted focus in browsertree! -> maybe call event
+           *
+           * we must reset language
+           */
+
         },
         (err: HttpErrorResponse) => {
 
