@@ -35,3 +35,19 @@
 
   margin-top: 11px;
 }
+
+.successAnimation {
+  animation: 1s successAnimationFrame forwards;
+}
+
+@keyframes successAnimationFrame {
+  from {
+    opacity: 0;
+    transform: translateY(-32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-8px);
+  }
+}
+
