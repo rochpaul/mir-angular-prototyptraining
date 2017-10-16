@@ -18,8 +18,8 @@ import {McrMessagesServerModel} from "../../../services/mcrmessages/mcrmessagesS
 export class MCRMessagesManagerComponent implements OnInit {
 
   // messages manager options
-  showMissingTranslations : boolean = false;
-  showDefaultTranslations : boolean = false;
+  showMissingTranslations: boolean = false;
+  showDefaultTranslations: boolean = false;
 
   mcrmessagesForm: FormGroup;
   mcrMessagesFormArray: FormArray;
@@ -113,18 +113,20 @@ export class MCRMessagesManagerComponent implements OnInit {
             this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
               disableClose: false
             });
-            this.dialogRef.componentInstance.confirmMessage = "Beim wechseln der Sprache " +
-              "gehen die aktuellen Änderungen verloren. Sollen diese zuvor gespeichert werden?";
+            this.dialogRef.componentInstance.confirmMessage =
+              "Beim wechseln der Sprache gehen die aktuellen Änderungen verloren. Wollen Sie fortfahren?";
 
             this.dialogRef.afterClosed().subscribe(result => {
               if (result) {
 
                 /*
-                 * save messages
+                 * continue
                  */
+                this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
               }
-
-              this.mcrmessagesService.sendServiceModelFromComponent(<Type<any>> this.mcrMessagesServiceModel.associatedComponent);
+              /*
+               * don't change language! Send some information to service (Switcher is not synchronized with form model)
+               */
             })
           } else {
 
@@ -249,24 +251,31 @@ export class MCRMessagesManagerComponent implements OnInit {
       this.dialogRef = this.dialog.open(SimpleConfirmComponent, {
         disableClose: false
       });
-      this.dialogRef.componentInstance.confirmMessage = "Beim verlassen " +
-        "des Message Editors gehen die aktuellen Änderungen verloren. Sollen diese gespeichert werden ?";
+      this.dialogRef.componentInstance.confirmMessage =
+        "Beim verlassen des Message Editors gehen die aktuellen Änderungen verloren.Wollen sie fortfahren? ";
 
       this.dialogRef.afterClosed().subscribe(result => {
         if (result) {
 
           /*
-           * save messages
+           * continue navigation
            */
+          this.canDeactivateValue = true;
+          this.router.navigateByUrl(nextState.url);
+
+          this.dialogRef = null;
+        } else {
+
+          /*
+           * user want to edit form without changing view
+           */
+          this.logger.info("MCRMessagesManagerComponent: canDeactivate() - User want to edit current form");
         }
 
         /*
-         * continue navigation
+         * disable navigation
          */
-        this.canDeactivateValue = true;
-        this.router.navigateByUrl(nextState.url);
 
-        this.dialogRef = null;
       });
 
       return false;
