@@ -1,5 +1,5 @@
 import {Injectable, Type} from '@angular/core';
-import {Subject, Observable} from "rxjs";
+import {Subject, Observable, Observer} from "rxjs";
 import {getAnnotation} from "../../../annotation";
 import {TranslateService} from "@ngx-translate/core";
 import {NGXLogger} from "ngx-logger";
@@ -278,18 +278,49 @@ export class McrmessagesService {
     });
   }
 
-  updateMcrMessages(mcrMessagesServiceModel: McrMessagesServerModel) {
+  updateMcrMessages(mcrMessagesServiceModel: McrMessagesServerModel): Observable<Object> {
 
-    this.logger.info("McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) - Start to update mcr messages")
+    this.logger.info("McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) - Start to update mcr messages");
 
-    let body = JSON.stringify(mcrMessagesServiceModel);
+    return Observable.create(observer => {
 
-    this.http
-      .post(appConfig.serverUrl + "/mir/api/v1/messages/updateMessageProperties", body, {
-        headers: new HttpHeaders().set("Content-Type", 'application/json'),
-      })
-      // See below - subscribe() is still necessary when using post().
-      .subscribe();
+      let body = JSON.stringify(mcrMessagesServiceModel);
 
+      this.http
+        .post(appConfig.serverUrl + "/mir/api/v1/messages/updateMessageProperties", body, {
+          headers: new HttpHeaders().set("Content-Type", 'application/json'),
+        })
+        // See below - subscribe() is still necessary when using post().
+        .subscribe(response => {
+
+            this.logger.info('McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) ' +
+              '- Update messages successful.');
+
+            console.log(response);
+
+            /*
+             * handle http reponse on other components
+             */
+            observer.next(<Object> response);
+            observer.complete();
+
+          },
+          (err: HttpErrorResponse) => {
+
+            if (err.error instanceof Error) {
+
+              this.logger.info('McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) ' +
+                'Client-side Error occured');
+
+            } else {
+
+              this.logger.info('McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) ' +
+                'Server-side Error occured');
+            }
+
+            observer.error(err);
+          });
+
+    });
   }
 }

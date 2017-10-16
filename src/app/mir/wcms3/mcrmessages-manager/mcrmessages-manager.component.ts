@@ -9,6 +9,7 @@ import {SimpleConfirmComponent} from "../../dialogs/simple-confirm/simple-confir
 import {McrMessagesServiceModel} from "../../../services/mcrmessages/mcrmessagesService.model";
 import {Router, NavigationStart, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
 import {McrMessagesServerModel} from "../../../services/mcrmessages/mcrmessagesServer.model";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-mcrmessages-manager',
@@ -231,7 +232,18 @@ export class MCRMessagesManagerComponent implements OnInit {
       let mcrMessageSerialize: McrMessagesServerModel = new McrMessagesServerModel(
         messagesToSave, this.mcrMessagesServiceModel.language);
 
-      this.mcrmessagesService.updateMcrMessages(mcrMessageSerialize);
+      this.logger.info("MCRMessagesManagerComponent: saveMcrMessages() - Start to change messages on serverside");
+
+      this.mcrmessagesService.updateMcrMessages(mcrMessageSerialize).subscribe(result => {
+
+          this.logger.info('MCRMessagesManagerComponent: saveMcrMessages() ' +
+            '- Refresh presentation layer.');
+        },
+        (err: HttpErrorResponse) => {
+
+          this.logger.info('MCRMessagesManagerComponent: saveMcrMessages() ' +
+            '- Error occurred on presentation layer.');
+        });
     }
   }
 
