@@ -70,7 +70,7 @@ export class ComponentBrowserComponent implements OnInit {
     /*
      * set active component
      */
-    if ($event.node.node.id !== this.activeComponentId) {
+    //if ($event.node.node.id !== this.activeComponentId) {
 
       /*
        * send active component id
@@ -86,7 +86,7 @@ export class ComponentBrowserComponent implements OnInit {
         <Type<any>> this.componentRegistry.getComponentModelById(this.activeComponentId).component
       );
 
-    }
+    //}
   }
 
   ngOnInit() {

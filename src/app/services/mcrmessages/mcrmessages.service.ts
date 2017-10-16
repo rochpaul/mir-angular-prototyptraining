@@ -296,7 +296,7 @@ export class McrmessagesService {
             this.logger.info('McrmessagesService: updateMcrMessages(mcrMessagesServiceModel) ' +
               '- Update messages successful.');
 
-            console.log(response);
+            this.translateService.reloadLang(this.mcrlanguageParams.currentLang);
 
             /*
              * handle http reponse on other components
