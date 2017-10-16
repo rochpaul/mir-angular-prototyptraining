@@ -1,4 +1,16 @@
 <form [formGroup]="mcrmessagesForm" class="userEditor form-horizontal">
+
+  <!--save part-->
+  <div [ngClass]="{'alert alert-success':saved}">
+
+    <div *ngIf="saved">
+    <h3>
+      Speichern erfolgreich!
+    </h3>
+    </div>
+  </div>
+
+
   <div formArrayName="mcrMessages" *ngIf="mcrmessagesForm.controls.mcrMessages.controls.length !== 0">
 
     <div class="mcrmessages_options">
@@ -19,7 +31,6 @@
         </label>
       </div>
     </div>
-
 
     <table class="simple-table">
       <tr>

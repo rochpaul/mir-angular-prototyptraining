@@ -29,6 +29,8 @@ export class MCRMessagesManagerComponent implements OnInit {
   mcrMessagesServiceModel: McrMessagesServiceModel;
   dialogRef: MdDialogRef<SimpleConfirmComponent>;
 
+  saved: boolean = false;
+
 
   constructor(private router: Router,
               private formBuilder: FormBuilder,
@@ -46,6 +48,8 @@ export class MCRMessagesManagerComponent implements OnInit {
 
 
     mcrmessagesService.getMCRMessageModelFromComponent().subscribe(mcrMessageServiceModel => {
+
+      this.saved = false;
 
         /*
          * check subscribed messages against messages in form array
@@ -252,6 +256,7 @@ export class MCRMessagesManagerComponent implements OnInit {
            *
            * we must reset language
            */
+          this.saved = true;
 
         },
         (err: HttpErrorResponse) => {
